@@ -70,8 +70,8 @@ Git adalah *control version software* untuk mengelola dan melacak perubahan dala
 ### Alasan Menggunakan Django sebagai Framework Awal dalam Pembelajaran
 1. **Framework Lengkap**
       Django adalah *full-stack framework* yang menyediakan semua yang dibutuhkan *developer* seperti *Object-Relational Mapping* (ORM), *template engine*, *form handling*, dan *routing*.
-2. **Arsitektur MVC (Model-View-Control)**
-      Arsitektur *Model-View-Control* (MVS) memudahkan *developer* memahami arsitektur aplikasi web.
+2. **Arsitektur MTV (Model-Template-View)**
+      Arsitektur *Model-Template-View* (MTV) memudahkan *developer* memahami arsitektur aplikasi web.
 3. **Keamanan Terjaga**
       Django menyediakan *middleware* yang otomatis melindungi aplikasi dari *Cross-Site Request Forgery* (CSRF) dan juga memiliki mekanisme untuk mencegah *Cross-Site Scripting* (XSS) dengan secara otomatis meng-*escape* output HTML.
 4. **Community Support**
