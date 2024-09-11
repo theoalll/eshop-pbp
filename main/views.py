@@ -4,21 +4,15 @@ from django.shortcuts import render
 
 def show_main(request):
     context = {
-        'product_name_1' : 'Product name 1',
-        'product_name_2' : 'Product name 2',
-        'product_name_3' : 'Product name 3',
+        'product_name' : 'Product name',
+        'price' : 1,
+        'product_description' : 'Product description',
+        'available_qty' : 1,
         
-        'price_1' : 1,
-        'price_2' : 2,
-        'price_3' : 3,
-
-        'product_description_1' : 'Product description 1',
-        'product_description_2' : 'Product description 2',
-        'product_description_3' : 'Product description 3',
-
-        'available_qty_1' : 1,
-        'available_qty_2' : 2,
-        'available_qty_3' : 3,
+        'nama_aplikasi' : 'PacilBay',
+        'nama_aku' : 'Theo Ananda Lemuel',
+        'kelas_aku' : 'PBP-A',
+        'npm_aku' : '2306165660'
     }
 
     return render(request, "main.html", context)
