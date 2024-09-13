@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}
+
 <h1>PacilBay</h1>
 
 <h5>Name: </h5>
@@ -8,3 +11,36 @@
 <p>{{ kelas_aku }}<p>
 <h5>Nama Aplikasi: </h5>
 <p>{{ nama_aplikasi }}<p>
+
+{% if not product_entries %}
+<p>Belum ada data product pada PacilBay.</p>
+{% else %}
+<table>
+    <tr>
+    <th>Product Name</th>
+    <th>Price</th>
+    <th>Product Description</th>
+    <th>Available Quantity</th>
+    </tr>
+
+    {% comment %} Berikut cara memperlihatkan data mood di bawah baris ini 
+    {% endcomment %} 
+    {% for product_entry in product_entries %}
+    <tr>
+    <td>{{product_entry.product_name}}</td>
+    <td>{{product_entry.price}}</td>
+    <td>{{product_entry.product_description}}</td>
+    <td>{{product_entry.available_qty}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+<br />
+
+<a href="{% url 'main:create_product_entry' %}">
+    <button>Add New Product Entry</button>
+</a>
+{% endblock content %}
+
+    
