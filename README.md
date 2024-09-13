@@ -160,10 +160,10 @@ JSON (*JavaScript Object Notation*) dan XML (*eXtensible Markup Language*) adala
    - Karena permintaan datang dari sesi *user* yang sah, *server* akan mempercayai permintaan tersebut dan menganggap bahwa itu berasal dari *user* yang sah.
 
 ### Mengakses keempat URL di poin 2 menggunakan Postman
-![My Image](Screenshot 2024-09-11_193747.png "get xml")
-![My Image](Screenshot 2024-09-11_193831.png "get xml by id")
-![My Image](Screenshot 2024-09-11_193842.png "get json")
-![My Image](Screenshot 2024-09-11_193851.png "get json by id")
+![Screenshot 2024-09-11 193747](https://github.com/user-attachments/assets/ef05be18-d46f-4715-b180-16d83ea98389)
+![Screenshot 2024-09-11 193831](https://github.com/user-attachments/assets/584b80e5-c78f-411d-9566-de859f4e3f06)
+![Screenshot 2024-09-11 193842](https://github.com/user-attachments/assets/97965ca8-d866-4fd7-9b5d-95f071e0521b)
+![Screenshot 2024-09-11 193851](https://github.com/user-attachments/assets/f339cb68-be38-4705-8390-a2217159ba9b)
 
 
 </details>
