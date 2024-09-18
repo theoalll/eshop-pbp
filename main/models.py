@@ -1,8 +1,12 @@
 import uuid
 from django.db import models
 
+# Untuk Menghubungkan Model MoodEntry dengan User
+from django.contrib.auth.models import User
+
 # Create your models here.
 class ProductEntry(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE) # menghubungkan satu mood entry dengan satu user melalui sebuah relationship
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     product_name = models.CharField(max_length=100)
     price = models.IntegerField()

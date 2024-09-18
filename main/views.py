@@ -33,7 +33,7 @@ def show_main(request):
         'product_entries' : product_entries,
         
         'nama_aplikasi' : 'PacilBay',
-        'nama_aku' : 'Theo Ananda Lemuel',
+        'nama_aku' : request.user.username,
         'kelas_aku' : 'PBP-A',
         'npm_aku' : '2306165660',
 
@@ -46,7 +46,11 @@ def create_product_entry(request):
     form = ProductEntryForm(request.POST or None)
 
     if form.is_valid() and request.method == "POST":
-        form.save()
+        
+        product_entry = form.save(commit=False) #mencegah Django agar tidak langsung menyimpan objek yang telah dibuat dari form langsung ke database
+        product_entry.user = request.user
+        product_entry.save()
+        
         return redirect('main:show_main')
 
     context = {'form': form}
