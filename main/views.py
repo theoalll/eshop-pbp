@@ -16,6 +16,11 @@ from django.contrib.auth import authenticate, login, logout
 # mengharuskan pengguna masuk (login) terlebih dahulu sebelum dapat mengakses suatu halaman web.
 from django.contrib.auth.decorators import login_required
 
+# untuk Menggunakan Data Dari Cookies
+import datetime
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
 @login_required(login_url='/login')
 def show_main(request):
     product_entries = ProductEntry.objects.all()
@@ -30,7 +35,9 @@ def show_main(request):
         'nama_aplikasi' : 'PacilBay',
         'nama_aku' : 'Theo Ananda Lemuel',
         'kelas_aku' : 'PBP-A',
-        'npm_aku' : '2306165660'
+        'npm_aku' : '2306165660',
+
+        'last_login': request.COOKIES['last_login'], # menambahkan informasi cookie last_login
     }
 
     return render(request, "main.html", context)
@@ -80,9 +87,11 @@ def login_user(request):
       form = AuthenticationForm(data=request.POST)
 
       if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('main:show_main')
+        user = form.get_user()
+        login(request, user)
+        response = HttpResponseRedirect(reverse("main:show_main")) # membuat response
+        response.set_cookie('last_login', str(datetime.datetime.now())) #membuat cookie last_login dan menambahkannya ke dalam response
+        return response
 
    else:
       form = AuthenticationForm(request)
@@ -92,4 +101,6 @@ def login_user(request):
 # Fungsi ini berfungsi untuk melakukan mekanisme logout
 def logout_user(request):
     logout(request)
-    return redirect('main:login')
+    response = HttpResponseRedirect(reverse('main:login'))
+    response.delete_cookie('last_login') # menghapus cookie last_login saat pengguna melakukan logout
+    return response
