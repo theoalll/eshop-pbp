@@ -41,6 +41,12 @@
 <a href="{% url 'main:create_product_entry' %}">
     <button>Add New Product Entry (click here)</button>
 </a>
+
+<!-- mengarah ke URL secara dinamis berdasarkan app_name dan name yang sudah didefinisikan di urls.py -->
+<!-- penulisan: url 'app_name:view_name' -->
+<a href="{% url 'main:logout' %}">
+    <button>Logout</button>
+</a>
 {% endblock content %}
 
     
