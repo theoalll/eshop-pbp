@@ -78,7 +78,8 @@ Git adalah *control version software* untuk mengelola dan melacak perubahan dala
 4. **Community Support**
       Django memiliki *komunitas* yang besar dan dokumentasi yang lengkap sehingga *beginner friendly :D*
 
-*###* Mengapa Model pada Django Disebut sebagai ORM?
+### Mengapa Model pada Django Disebut sebagai ORM?
+
 Model pada *Django disebut sebagai* ORM (*Object-Relational Mapping*) karena terdapat *interface* antara model di Python (class) dengan *relational *database** (tabel). Dengan prinsip ini, *developer* bisa bekerja menggunakan *database* dengan konsep *object-oriented* tanpa harus membuat query SQL manual. Django ORM mengubah operasi *Create, Read, Update, Delete* (CRUD) di OOP Python ke *query SQL* yang bersifat *connected* dengan *database*, sehingga memudahkan interaksi aplikasi dengan data.
 </details>
 
@@ -124,7 +125,7 @@ Setelah melalui 6 langkah ini, kita bisa membuat form, menyimpan data, menampilk
 Contoh:
 Saat *user* *login* ke *platform*, kredensial kita (misal *username* dan *password*) dikirim ke *server* untuk diverifikasi. Pengiriman tersebut membutuhkan *data delivery* pada *platform*. Tanpa *data delivery*, *user* tidak bisa melakukan *login* dan mengakses akun.
 
-### mana yang lebih baik antara XML dan JSON?
+### Mana yang lebih baik antara XML dan JSON?
 JSON (*JavaScript Object Notation*) dan XML (*eXtensible Markup Language*) adalah format yang digunakan untuk pertukaran data antara *server* dan *client* dalam pengembangan aplikasi. Masing-masing memiliki kelebihan dan kekurangan, tapi JSON dianggap lebih baik daripada XML. Kenapa JSON lebih populer dibandingkan XML?
 
 | Kriteria     | JSON     | XML |
@@ -134,7 +135,7 @@ JSON (*JavaScript Object Notation*) dan XML (*eXtensible Markup Language*) adala
 | *Compatibility* dengan JavaScript      | JSON adalah format yang berasal dari JavaScript, sehingga kompatibel dengan JavaScript. JSON dapat diubah menjadi objek JavaScript tanpa perlu *parser* lagi.   | XML membutuhkan *parser* untuk mengubah data menjadi objek JavaScript, sehingga lebih lambat dan kompleks.       |
 | Keamanan      | JSON lebih aman terhadap serangan seperti *XML External Entity* (XXE) *attack* dibandingkan XML.   | XML lebih rentan terhadap berbagai jenis serangan karena kompleksitas dan fitur-fiturnya seperti DTD (*Document Type Definition*).        |
 
-### Fungsi dari method is_valid() pada *form* Django
+### Fungsi dari method `is_valid()` pada *form* Django
 1. **Fungsi is_valid() pada Django Form**
    - Fungsi `is_valid()` memeriksa apakah data yang diterima dari *user* (melalui metode POST) memenuhi semua persyaratan yang sudah dibuat dalam form. Jika semua data valid, fungsi akan me-*return* nilai `True`. Jika ada data yang tidak valid, akan me-*return* `False`.
    - Fungsi `is_valid()` juga mengisi atribut `cleaned_data`. Ketika `is_valid()` bernilai `True`, Django akan membersihkan (*sanitize*) data *input* lalu me-*pass* ke dalam atribut `cleaned_data` pada objek *form*. 
@@ -147,7 +148,7 @@ JSON (*JavaScript Object Notation*) dan XML (*eXtensible Markup Language*) adala
 ### Mengapa kita membutuhkan `csrf_token`?
 `csrf_token` (*Cross-Site Request Forgery token*) adalah mekanisme keamanan saat ada *request form* dan HTTP POST *request*. Token ini melindungi aplikasi web dari serangan *Cross-Site Request Forgery* (CSRF) yaitu serangan di mana *attacker* memanipulasi *user* untuk mengirim *request* yang aneh-aneh tanpa diketahui *user*.
 
-1 **Mengapa Kita Membutuhkan `csrf_token` saat Membuat *Form* di Django?**
+1. **Mengapa Kita Membutuhkan `csrf_token` saat Membuat *Form* di Django?**
    *CSRF attack* terjadi ketika *attacker* mensabotase *session untuk* melakukan *action* yang tidak diinginkan atas nama *user* tersebut (misalnya *mengubah* *password*, melakukan transaksi keuangan, dll). `csrf_token` dihasilkan secara *random* dan unik, ditambahkan ke setiap *form* yang memerlukan POST (seperti *form* *login*, registrasi, dan *update* data). Sehingga, *attacker* tidak bisa mensabotase *session* tsb. Jika token CSRF tidak valid atau tidak ada, *request* tersebut dianggap mencurigakan dan akan ditolak oleh Django.
 
 2. **Apa yang Dapat Terjadi Jika Kita Tidak Menambahkan `csrf_token` pada *Form* Django?**
@@ -215,9 +216,9 @@ Dalam mengimplementasikan Autentikasi, *Session*, dan *Cookies* pada Django untu
    - Setelah menyimpan data *login* terakhir, kita akan menampilkannya pada halaman utama dengan cara menambahkan informasi *cookie* `last_login : request.COOKIES['last_login']` pada `context` di `views.py` lalu memanggil nilainya di halaman utama (`main.html`)
    - Kita juga akan menghapus *cookie* saat *user* *logout* dengan menambahkan kode `response.delete_cookie('last_login')` di fungsi `logout_user`
 
-6 **Menghubungkan *Model* `ProductEntry` dengan `User`**
+6. **Menghubungkan *Model* `ProductEntry` dengan `User`**
 
-   Kita ingin seorang **user* hanya* melihat *product* *entries* yang telah dibuat sendiri. Oleh karena itu, kita perlu menghubungkan model `ProductEntry` dengan `User` dengan cara:
+   Kita ingin seorang *user* hanya melihat *product* *entries* yang telah dibuat sendiri. Oleh karena itu, kita perlu menghubungkan model `ProductEntry` dengan `User` dengan cara:
    - Tambah *field* `user` yang bertipe `ForeignKey` pada model `ProductEntry`  untuk menghubungkan setiap entri *product* dengan *user* yang membuatnya.
    - Setelah membuat *field* `user`, kita akn mengubah fungsi `create_product_entry` untuk menyimpan *user* yang sedang *login* sebagai pemilik entri mood dengan meset variabel *user* di model `ProductEntry` dengan menambahkan kode `product_entry.user = request.user`
    - Selanjutnya, kita akan memfilter data `ProductEntry` supaya hanya menampilkan entri *product* yang dimiliki oleh *user* yang sedang *login* dengan mengubah variabel `product_entries` di fungsi `show_main` *yang* awalnya bernilai `MoodEntry.objects.all()` menjadi `MoodEntry.objectsfilter(user=request.user)`
@@ -290,15 +291,9 @@ Pada penghubungan model, kita menggunakan `ForeignKey`. `ForeignKey` adalah tipe
    - Pencocokan *Session*
       Django akan memeriksa *cookie* *session* *ID* yang dikirim oleh browser. Jika *session* *ID* valid, Django akan mengambil data *session* dari server dan mengidentifikasi bahwa *user* tersebut sudah *login*. Namun, jika *request* tidak mengandung *session ID* atau *session ID* tidak valid, django akan mengidentifikasi bahwa *user* tersebut belum *login* dan menolak *request* yang dikirim.
 2. Kegunaan lain dari *cookies* dan keamanan *cookies*
-   - Meningkatkan *user* *experience*  
-
-      Dengan menggunakan *cookies*, *website* bisa mengingat pengaturan *user* (misal: *font* *size, color* *theme*, atau *page layout*). 
-   - Analisis Web
-
-      *Cookies* membantu melacak perilaku *user* di website (misal: halaman yang sering *dikunjungi*, durasi, pola *click*, dll)
-   - Iklan
-
-      *Cookies* dapat digunakan oleh perusahaan pengiklan untuk membuat *user profile* berdasarkan minat dan perilaku *user* di berbagai website. *User profile* ini kemudian digunakan untuk menampilkan iklan yang relevan dengan minat pengguna.
+   - Dengan menggunakan *cookies*, *website* bisa mengingat pengaturan *user* (misal: *font* *size, color* *theme*, atau *page layout*) sehingga meningkatkan *user* *experience*. 
+   - *Cookies* membantu melacak perilaku *user* di website (misal: halaman yang sering *dikunjungi*, durasi, pola *click*, dll) yang membantu analisis web.
+   - *Cookies* dapat digunakan oleh perusahaan pengiklan untuk membuat *user profile* berdasarkan minat dan perilaku *user* di berbagai website. *User profile* ini kemudian digunakan untuk menampilkan iklan yang relevan dengan minat pengguna.
 3. Apakah semua *cookies* aman digunakan?
 
    Tidak semua *cookies* aman digunakan. Meskipun *cookies* memiliki banyak manfaat, terdapat beberapa risiko antara lain:
