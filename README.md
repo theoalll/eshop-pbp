@@ -45,14 +45,14 @@
 
 ```mermaid
 graph TD;
-    Client -->|Request| *url*s.py;
-    *url*s.py -->|Maps *URL*| views.*py*;
+    Client -->|Request| urls.py;
+    urls.py -->|Maps URL| views.py;
     views.py -->|Handles Logic| models.py;
-    viewspy* -->|R*enders* *Template*| *template*s;
-    models.py -->|Access *Data| *Database**;
-    *Database* -->|Returns Data| models.py;
+    viewspy -->|Renders Template| templates;
+    models.py -->|Access Data| Database;
+    Database -->|Returns Data| models.py;
     models.py -->|Returns Data| views.py;
-    *template*s -->|DisplaysResponse*| *Client*;
+    templates -->|DisplaysResponse| Client;
 ```
 **Penjelasan Bagan:**
     - `urls.py`: Menghubungkan *URL* yang diminta ke aplikasi dan data yang tersedia di views.py.
