@@ -48,7 +48,7 @@ graph TD;
     Client -->|Request| urls.py;
     urls.py -->|Maps URL| views.py;
     views.py -->|Handles Logic| models.py;
-    viewspy -->|Renders Template| templates;
+    views.py -->|Renders Template| templates;
     models.py -->|Access Data| Database;
     Database -->|Returns Data| models.py;
     models.py -->|Returns Data| views.py;
