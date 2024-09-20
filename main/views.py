@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from main.forms import ProductEntryForm
 from main.models import ProductEntry
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 
 
@@ -23,7 +23,7 @@ from django.urls import reverse
 
 @login_required(login_url='/login')
 def show_main(request):
-    product_entries = ProductEntry.objects.all()
+    product_entries = ProductEntry.objects.filter(user=request.user)
 
     context = {
         'product_name' : 'Product name',
