@@ -4,7 +4,7 @@
 [Aplikasi PacilBay](http://theo-ananda-pacilbay.pbp.cs.ui.ac.id/) (http://theo-ananda-pacilbay.pbp.cs.ui.ac.id/)
 
 <details>
-  <summary><h2>Tugas 2: Implementasi *Model-View-Template* (MVT) pada Django (*Click to Expand*)</h2></summary>
+  <summary><h2>Tugas 2: Implementasi Model-View-Template (MVT) pada Django (Click to Expand)</h2></summary>
 
 ### Langkah-langkah Implementasi Aplikasi Berbasis Django
 
@@ -83,7 +83,7 @@ Model pada *Django disebut sebagai* ORM (*Object-Relational Mapping*) karena ter
 </details>
 
 <details>
-  <summary><h2>Tugas 3: Implementasi Form dan Data Delivery pada Django (*Click to Expand*)</h2></summary>
+  <summary><h2>Tugas 3: Implementasi Form dan Data Delivery pada Django (Click to Expand)</h2></summary>
 
 ### Langkah-langkah Implementasi Form dan Data Delivery pada Django
 1. **Membuat Kerangka *Views* dengan Skeleton**
@@ -146,8 +146,9 @@ JSON (*JavaScript Object Notation*) dan XML (*eXtensible Markup Language*) adala
 
 ### Mengapa kita membutuhkan `csrf_token`?
 `csrf_token` (*Cross-Site Request Forgery token*) adalah mekanisme keamanan saat ada *request form* dan HTTP POST *request*. Token ini melindungi aplikasi web dari serangan *Cross-Site Request Forgery* (CSRF) yaitu serangan di mana *attacker* memanipulasi *user* untuk mengirim *request* yang aneh-aneh tanpa diketahui *user*.
-1 **Mengapa Kita Membutuhkan `csrf_token` saat Membuat *Form* di *Django*?**
-   *CSRF attack* terjadi ketika *attacker* mensabotase *session untuk* melakukan *action* yang tidak diinginkan atas nama *user* tersebut (misalnya *mengubah* *password**,** melakukan transaksi keuangan, dll). `csrf_token` dihasilkan secara *random* dan unik, ditambahkan ke setiap *form* yang memerlukanPOST* (seperti *form* *login*, registrasi, dan *update* data). Sehingga, *attacker* tidak bisa mensabotase *session* tsb. Jika token CSRF tidak valid atau tidak ada, *request* tersebut dianggap mencurigakan dan akan ditolak oleh Django.
+
+1 **Mengapa Kita Membutuhkan `csrf_token` saat Membuat *Form* di Django?**
+   *CSRF attack* terjadi ketika *attacker* mensabotase *session untuk* melakukan *action* yang tidak diinginkan atas nama *user* tersebut (misalnya *mengubah* *password*, melakukan transaksi keuangan, dll). `csrf_token` dihasilkan secara *random* dan unik, ditambahkan ke setiap *form* yang memerlukan POST (seperti *form* *login*, registrasi, dan *update* data). Sehingga, *attacker* tidak bisa mensabotase *session* tsb. Jika token CSRF tidak valid atau tidak ada, *request* tersebut dianggap mencurigakan dan akan ditolak oleh Django.
 
 2. **Apa yang Dapat Terjadi Jika Kita Tidak Menambahkan `csrf_token` pada *Form* Django?**
    - *Attacker* bisa mengirim *request* berbahaya yang mengirimkan POST *request* ke aplikasi web tanpa sepengetahuan *user*. Jika *user* telah masuk ke aplikasi tersebut, *session* akan digunakan untuk mengautentikasi *request* tersebut.
@@ -167,7 +168,7 @@ JSON (*JavaScript Object Notation*) dan XML (*eXtensible Markup Language*) adala
 
 </details>
 <details>
-  <summary><h2>Tugas 4: Implementasi Autentikasi, *Session*, dan *Cookies* pada Django (*Click to Expand*)</h2></summary>
+  <summary><h2>Tugas 4: Implementasi Autentikasi, Session, dan Cookies pada Django (Click to Expand)</h2></summary>
 
 ### Langkah-Langkah Implementasi Autentikasi, *Session*, dan *Cookies* pada Django
 Pada tugas ini, kita akan membangun sistem registrasi dan autentikasi *user* pada aplikasi Django yang telah dibuat. Dengan adanya sistem ini, *user* harus memiliki akun yang valid untuk mengakses halaman utama aplikasi dan hanya dapat melihat data yang terkait dengan akun mereka.
@@ -287,7 +288,7 @@ Pada penghubungan model, kita menggunakan `ForeignKey`. `ForeignKey` adalah tipe
    - *Cookie* *Session* *ID*
       Browser *user* akan menyimpan *cookie* *session* *ID* yang sudah dibuat saat *user* *login*. Setiap kali *user* mengirim *request* ke server, *cookie* *session* *ID* ini akan ikut dikirim dalam *header* *request*.
    - Pencocokan *Session*
-      Django akan memeriksa *cookie* *session* *ID* yang dikirim oleh browser. Jika *session* *ID* valid, Django akan mengambil data *session* dari server dan mengidentifikasi bahwa *user* tersebut sudah *login*. Namun, jika *request* tidak mengandung *session ID* atau *session ID* tidak valid, django akan mengidentifikasi bahwa *user* tersebut belum *login* dan menolak *request* yang dikirim*.
+      Django akan memeriksa *cookie* *session* *ID* yang dikirim oleh browser. Jika *session* *ID* valid, Django akan mengambil data *session* dari server dan mengidentifikasi bahwa *user* tersebut sudah *login*. Namun, jika *request* tidak mengandung *session ID* atau *session ID* tidak valid, django akan mengidentifikasi bahwa *user* tersebut belum *login* dan menolak *request* yang dikirim.
 2. Kegunaan lain dari *cookies* dan keamanan *cookies*
    - Meningkatkan *user* *experience*  
 
