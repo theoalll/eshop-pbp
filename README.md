@@ -17,7 +17,7 @@
    - Menyesuaikan pengaturan di `settings.py`, seperti konfigurasi *database*, `INSTALLED_APPS`, *allowed host* untuk mengizinkan `localhost` dan PWS mengakses aplikasi.
 
 3. **Membuat Aplikasi Django:**
-   - Menjalankan `python manage.py startapp *main*` untuk membuat aplikasi `main` di dalam proyek.
+   - Menjalankan `python manage.py startapp main` untuk membuat aplikasi `main` di dalam proyek.
    - Menambahkan aplikasi *main* ke dalam `INSTALLED_APPS` di `settings.py`.
 
 4. **Membuat *Template* HTML:**
@@ -79,7 +79,7 @@ Git adalah *control version software* untuk mengelola dan melacak perubahan dala
       Django memiliki *komunitas* yang besar dan dokumentasi yang lengkap sehingga *beginner friendly :D*
 
 *###* Mengapa Model pada Django Disebut sebagai ORM?
-Model pada *Django disebut sebagai* ORM (*Object-Relational Mapping*) karena terdapat *interface* antara model di Python (class) dengan *relational *database** (tabel). Denganprinsip* ini*,* *developer* bisa bekerja menggunakan *database* dengan konsep *object-oriented* tanpa harus membuat query SQL manual. Django ORM mengubah operasi *Create, Read, Update, Delete* (CRUD) di OOP Python ke *query SQL* yang bersifat *connected* dengan *database*, sehingga memudahkan interaksi aplikasi dengan data.
+Model pada *Django disebut sebagai* ORM (*Object-Relational Mapping*) karena terdapat *interface* antara model di Python (class) dengan *relational *database** (tabel). Dengan prinsip ini, *developer* bisa bekerja menggunakan *database* dengan konsep *object-oriented* tanpa harus membuat query SQL manual. Django ORM mengubah operasi *Create, Read, Update, Delete* (CRUD) di OOP Python ke *query SQL* yang bersifat *connected* dengan *database*, sehingga memudahkan interaksi aplikasi dengan data.
 </details>
 
 <details>
@@ -145,9 +145,9 @@ JSON (*JavaScript Object Notation*) dan XML (*eXtensible Markup Language*) adala
    - Tanpa validasi `is_valid()`, data yang tidak valid bisa menyebabkan *error* di aplikasi. Misalnya *user* memasukkan *string* teks ke *field* yang seharusnya menerima *int*.
 
 ### Mengapa kita membutuhkan `csrf_token`?
-`csrf_token` (*Cross-Site *Request* Forgery token*) adalah mekanisme keamanan saat ada *request form* dan HTTP POST *request*. Token ini melindungi aplikasi web dari serangan *Cross-Site *Request* Forgery* (CSRF) yaitu serangan di mana *attacker* memanipulasi **user** untuk mengirim *request* yang aneh-aneh tanpa diketahui *user*.
-1 ***Mengapa *Kita* Membutuhkan `csrf_token` saat Membuat *Form* di *Django*?**
-   **CSRF attack** terjadi ketika *attacker* mensabotase *session untuk* melakukan **action** yang tidak diinginkan atas nama *user* tersebut (misalnya *mengubah* *password**,** melakukan transaksi keuangan, dll). `csrf_token` dihasilkan secara *random* dan unik, ditambahkan ke setiap *form* yang memerlukanPOST* (seperti **form** *login*, registrasi, dan *update* data). Sehingga, *attacker* tidak bisa mensabotase *session* tsb. Jika token CSRF tidak valid atau tidak ada, *request* tersebut dianggap mencurigakan dan akan ditolak oleh Django.
+`csrf_token` (*Cross-Site Request Forgery token*) adalah mekanisme keamanan saat ada *request form* dan HTTP POST *request*. Token ini melindungi aplikasi web dari serangan *Cross-Site Request Forgery* (CSRF) yaitu serangan di mana *attacker* memanipulasi *user* untuk mengirim *request* yang aneh-aneh tanpa diketahui *user*.
+1 **Mengapa Kita Membutuhkan `csrf_token` saat Membuat *Form* di *Django*?**
+   *CSRF attack* terjadi ketika *attacker* mensabotase *session untuk* melakukan *action* yang tidak diinginkan atas nama *user* tersebut (misalnya *mengubah* *password**,** melakukan transaksi keuangan, dll). `csrf_token` dihasilkan secara *random* dan unik, ditambahkan ke setiap *form* yang memerlukanPOST* (seperti *form* *login*, registrasi, dan *update* data). Sehingga, *attacker* tidak bisa mensabotase *session* tsb. Jika token CSRF tidak valid atau tidak ada, *request* tersebut dianggap mencurigakan dan akan ditolak oleh Django.
 
 2. **Apa yang Dapat Terjadi Jika Kita Tidak Menambahkan `csrf_token` pada *Form* Django?**
    - *Attacker* bisa mengirim *request* berbahaya yang mengirimkan POST *request* ke aplikasi web tanpa sepengetahuan *user*. Jika *user* telah masuk ke aplikasi tersebut, *session* akan digunakan untuk mengautentikasi *request* tersebut.
@@ -211,19 +211,19 @@ Dalam mengimplementasikan Autentikasi, *Session*, dan *Cookies* pada Django untu
 
 5. **Menggunakan *Cookies* untuk Menyimpan Data *Login* Terakhir**
    - Kita akan menyimpan data *login* terakhir dengan menambahkan kode `response.set_cookie('last_login', str(datetime.datetime.now()))` di fungsi `login_user` untuk menyimpan waktu *login* terakhir dalam bentuk *cookie* saat *user* berhasil *login*.
-   - Setelah menyimpan data *login* terakhir, kita akan menampilkannya pada halaman utama dengan cara menambahkan informasi *cookie* `last_login : *request*.COOKIES['last_login']` pada `context` di `views.py` lalu memanggil nilainya di halaman utama (`main.html`)
-   - Kita juga akan menghapus *cookie* saat *user* *logout* dengan menambahkan kode `response.*delete_cookie*('last_login')` di fungsi `logout_user`
+   - Setelah menyimpan data *login* terakhir, kita akan menampilkannya pada halaman utama dengan cara menambahkan informasi *cookie* `last_login : request.COOKIES['last_login']` pada `context` di `views.py` lalu memanggil nilainya di halaman utama (`main.html`)
+   - Kita juga akan menghapus *cookie* saat *user* *logout* dengan menambahkan kode `response.delete_cookie('last_login')` di fungsi `logout_user`
 
-6 ***Menghubungkan *Model* `ProductEntry` dengan `User`**
+6 **Menghubungkan *Model* `ProductEntry` dengan `User`**
 
-   Kita ingin seorang **user* hanya* melihat *product* *entries* yang telah dibuat sendiri. Oleh karena itu, kita perlu menghubungkan model `ProductEntry` dengan `User dengan* cara*:*
+   Kita ingin seorang **user* hanya* melihat *product* *entries* yang telah dibuat sendiri. Oleh karena itu, kita perlu menghubungkan model `ProductEntry` dengan `User` dengan cara:
    - Tambah *field* `user` yang bertipe `ForeignKey` pada model `ProductEntry`  untuk menghubungkan setiap entri *product* dengan *user* yang membuatnya.
-   - Setelah membuat *field* `user`, kita akn mengubah fungsi `create_product_entry` untuk menyimpan *user* yang sedang *login* sebagai pemilik entri mood dengan meset variabel *user* di model `ProductEntry` dengan menambahkan kode `product_entry.user = *request*.user`
-   - Selanjutnya, kita akan memfilter data `ProductEntry` supaya hanya menampilkan entri *product* yang dimiliki oleh *user* yang sedang *login* dengan mengubah variabel `product_entries` di fungsi `show_main` *yang* awalnya bernilai `MoodEntry.objects.all()` menjadi `MoodEntry.objectsfilter*(u*ser*=request.user)`
-   - Setelah membuat perubahan pada model `ProductEntry*`, kita melakukan* migrasi untuk memperbarui struktur *database*.
+   - Setelah membuat *field* `user`, kita akn mengubah fungsi `create_product_entry` untuk menyimpan *user* yang sedang *login* sebagai pemilik entri mood dengan meset variabel *user* di model `ProductEntry` dengan menambahkan kode `product_entry.user = request.user`
+   - Selanjutnya, kita akan memfilter data `ProductEntry` supaya hanya menampilkan entri *product* yang dimiliki oleh *user* yang sedang *login* dengan mengubah variabel `product_entries` di fungsi `show_main` *yang* awalnya bernilai `MoodEntry.objects.all()` menjadi `MoodEntry.objectsfilter(user=request.user)`
+   - Setelah membuat perubahan pada model `ProductEntry`, kita melakukan migrasi untuk memperbarui struktur *database*.
 
 ### Perbedaan antara `HttpResponseRedirect()` dan `redirect()`
-|Kriteria*     | `*HttpResponseRedirect*()`     | `redirect()` |
+|Kriteria     | `HttpResponseRedirect()`     | `redirect()` |
 |--------------|-----------|------------|
 | *Level of abstraction*|Merupakan *low level function* sehingga *developer* bisa memiliki kontrol yang lebih besar untuk pengaplikasian fungsi tersebut. `HttpResponseRedirect()` bisa mengatur atribut-atribut *HTTP respons* (misalnya *status code*, *header*, *cookie*, dll). | Merupakan *high level function* yang merupakan *shortcut* dari `HttpResponseRedirect()`. `redirect()` menyederhanakan proses pembuatan objek `HttpResponseRedirect` karena secara otomatis mengatur *status code* dan *header* yang biasanya digunakan untuk *redirect*.|
 | Penggunaan | Biasanya digunakan dalam situasi yang memerlukan *HTTP response *custom*ization* yang lebih detail. Contoh: ketika mau mengatur *status code* yang berbeda (misal, 301 untuk *redirect permanen*) atau menambahkan *header *custom**. | Biasanya lebih sering dipakai karena lebih mudah digunakan dan cukup fleksibel untuk kebutuhan *redirect* (tanpa situasi khusus/*customization*). |
@@ -243,10 +243,10 @@ Pada penghubungan model, kita menggunakan `ForeignKey`. `ForeignKey` adalah tipe
    Di file `models.py`, kita tambahkan *field* `user` dengan tipe `ForeignKey` ke model `MoodEntry`.
    <pre lang="python">
       from django.db import models
-      from django.contrib.auth.models import *User*
+      from django.contrib.auth.models import User
 
       class MoodEntry(models.Model):
-         *user* = models.ForeignKey(User, on_delete=models.CASCADE)
+         user = models.ForeignKey(User, on_delete=models.CASCADE)
          # ... dst
    </pre>
    
@@ -275,11 +275,11 @@ Pada penghubungan model, kita menggunakan `ForeignKey`. `ForeignKey` adalah tipe
 
    - Otorisasi di Django
       1. *Permission*: Kita bisa membuat *permission* (izin) yang spesifik untuk setiap model atau *action*. Misal, kita bisa memberikan izin `delete_product` untuk menghapus produk bagi *role* admin.
-      2. *Group*: Kita bisa mengelompokkan *permission* ke dalam *group*. Contoh: *group* "client" memiliki *permission* "add_to_cart", "buy_items",dan* "delete_from_cart".      
-      3*. *Custom* *Permission*: Kita bisa membuat *permission* *custom* untuk kebutuhan spesifik.
+      2. *Group*: Kita bisa mengelompokkan *permission* ke dalam *group*. Contoh: *group* "client" memiliki *permission* "add_to_cart", "buy_items", dan "delete_from_cart".      
+      3. *Custom* *Permission*: Kita bisa membuat *permission* *custom* untuk kebutuhan spesifik.
 
-### Peran *cookies* dalam mengingat* *user* yang telah *login*, keamanan *cookies*
-1. Bagaimana Django mengingat* *user* yang telah *login*?
+### Peran *cookies* dalam mengingat *user* yang telah *login*, keamanan *cookies*
+1. Bagaimana Django mengingat *user* yang telah *login*?
    Django menggunakan sistem *session* untuk mengingat *user* yang telah *login*. 
    
    - Pembuatan *Session*
@@ -287,15 +287,19 @@ Pada penghubungan model, kita menggunakan `ForeignKey`. `ForeignKey` adalah tipe
    - *Cookie* *Session* *ID*
       Browser *user* akan menyimpan *cookie* *session* *ID* yang sudah dibuat saat *user* *login*. Setiap kali *user* mengirim *request* ke server, *cookie* *session* *ID* ini akan ikut dikirim dalam *header* *request*.
    - Pencocokan *Session*
-      Django akan memeriksa *cookie* *session* *ID* yang dikirim oleh browser. Jika *session* *ID* valid, Django akan mengambil data *session* dari server dan mengidentifikasi bahwa* *user** tersebut sudah *login*. Namun, jika *request* tidak mengandung *session ID* atau *session ID* tidak valid, django akan mengidentifikasi bahwa *user* tersebut belum *login* dan menolak *request* yang dikirim*.
-*2*. Kegunaan lain dari *cookies* dan keamanan *cookies*
-   - Meningkatkan *user* *experience*      
+      Django akan memeriksa *cookie* *session* *ID* yang dikirim oleh browser. Jika *session* *ID* valid, Django akan mengambil data *session* dari server dan mengidentifikasi bahwa *user* tersebut sudah *login*. Namun, jika *request* tidak mengandung *session ID* atau *session ID* tidak valid, django akan mengidentifikasi bahwa *user* tersebut belum *login* dan menolak *request* yang dikirim*.
+2. Kegunaan lain dari *cookies* dan keamanan *cookies*
+   - Meningkatkan *user* *experience*  
+
       Dengan menggunakan *cookies*, *website* bisa mengingat pengaturan *user* (misal: *font* *size, color* *theme*, atau *page layout*). 
    - Analisis Web
-      *Cookies membantu* melacak perilaku *user* di website (misal: halaman yang* sering *dikunjungi*, durasi, pola *click*, dll)
+
+      *Cookies* membantu melacak perilaku *user* di website (misal: halaman yang sering *dikunjungi*, durasi, pola *click*, dll)
    - Iklan
-      *Cookies* dapat digunakan oleh perusahaan pengiklan untuk membuat *user profile* berdasarkan minatdan* perilaku *user* di berbagai website. *User profile* ini kemudian digunakan untuk menampilkan iklan yang relevan dengan minat pengguna.
+
+      *Cookies* dapat digunakan oleh perusahaan pengiklan untuk membuat *user profile* berdasarkan minat dan perilaku *user* di berbagai website. *User profile* ini kemudian digunakan untuk menampilkan iklan yang relevan dengan minat pengguna.
 3. Apakah semua *cookies* aman digunakan?
+
    Tidak semua *cookies* aman digunakan. Meskipun *cookies* memiliki banyak manfaat, terdapat beberapa risiko antara lain:
    - *Cookies* bisa dipakai untuk melacak aktivitas *user* sehingga memungkinkan pihak tertentu membuat profil rinci tentang minat dan kebiasaan pengguna. Hal ini bisa saja merupakan pelanggaran privasi.
    - Jika *cookies* tidak dikelola dengan aman, data yang tersimpan bisa dicuri. Hal ini menyebabkan informasi sensitif (misal kata sandi, informasi kartu kredit, dll) bisa bocor.
