@@ -33,9 +33,9 @@ def show_main(request):
         'product_entries' : product_entries,
         
         'nama_aplikasi' : 'PacilBay',
-        'nama_aku' : request.user.username,
-        'kelas_aku' : 'PBP-A',
-        'npm_aku' : '2306165660',
+        'name' : request.user.username,
+        'class' : 'PBP-A',
+        'npm' : '2306165660',
 
         'last_login': request.COOKIES['last_login'], # menambahkan informasi cookie last_login
     }
