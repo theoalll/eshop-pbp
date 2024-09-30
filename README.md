@@ -302,3 +302,272 @@ Pada penghubungan model, kita menggunakan `ForeignKey`. `ForeignKey` adalah tipe
    - *Cross-Site Scripting* (XSS). *Cookies* bisa digunakan untuk melakukan XSS, di mana *attacker* menyuntikkan skrip ke dalam situs web yang kemudian dieksekusi di browser pengguna.
    - *Cookie* Poisoning untuk memodifikasi isi *cookie* untuk menipu server.
 </details>
+
+<details>
+<summary><h2>Tugas 5: Desain Web menggunakan HTML, CSS dan Framework CSS (Click to Expand)</h2></summary>
+
+###  Langkah-Langkah Implementasi Desain Web menggunakan HTML, CSS dan Framework CSS
+
+1. **Implementasi Fungsi Hapus dan Edit Product**
+   - Pertama, kita buka file `views.py` di folder `main` dan tambahkan fungsi baru bernama `edit_product` yang menerima parameter `request` dan `id`. Fungsi ini digunakan untuk mengedit data product, jadi kita perlu mengambil data product yang ingin diedit berdasarkan id yang diberikan.
+   - Kita kembali buka file `views.py` di folder `main` dan tambahkan fungsi baru bernama `delete_product` yang menerima parameter `request` dan `id`. Fungsi ini digunakan untuk menghapus data product, jadi kita perlu mengambil data product yang ingin dihapus berdasarkan id yang diberikan.
+   - Setelah menambahkan fungsi untuk mengedit dan menghapus produk, kita buka file `urls.py` di folder main dan tambahkan URL pattern untuk mengakses fungsi `edit_product` dan `delete_product`.
+   - Kemudian, kita akan membuat template HTML sebagai interface supaya user bisa mengedit produk. Buka folder main/templates, buat template baru bernama `edit_product.html` untuk mengedit data product.
+   - Kita juga akan menambahkan 2 buah tombol untuk mengedit dan menghapus produk untuk setiap produk yang ada. Buka template `main.html` dan tambahkan tombol edit dan hapus untuk setiap product.
+
+2. **Kustomisasi Desain**
+   - Saya menggunakan *framework* css bootstrap dalam melakukan kustomisasi design. Pertama, kita tambahkan bootstrap di `base.html` untuk mengaktifkan fitur-fitur responsif yang disediakan oleh bootstrap.
+   - Selanjutnya, kita kustomisasi halaman *login* di `login.html`. Pada halaman *login*, saya menggunakan fitur *card* yang disediakan bootstrap. Pada header *card* berisi *heading* 'login', sedangkan pada *body* *card* berisi tabel untuk menampilkan *form* *login* dengan tabel (`form.as_table`)
+   - Saya juga mengkustomisasi halaman register di `register.html` sama persis dengan halaman *login*, menggunakan fitur *card* yang berisi tabel untuk menampilkan *form register* dengan tabel (`form.as_table`)
+   - Selanjutnya, saya akan mengkustomisasi halaman tambah produk di `create_product_entry.html`. Sama dengan kustomisasi sebelumnya, saya menggunakan fitur *card* yang berisi tabel untuk menampilkan *form register* dengan tabel (`form.as_table`)
+   - Setelah itu, saya mengkustomisasi halaman `main.html`. Terdapat elemen *heading* yang bertuliskan 'Welcome to Pacilbay', saya juga menambahkan *quote* di bawah *heading* tersebut diikuti dengan informasi pribadi *user*. Saya menggunakan *class* `row` yang disediakan bootstrap dengan 3 kolom untuk menampilkan NPM, nama, dan kelas dari *user*. Selanjutnya, saya akan mengecek apakah terdapat *product entries*. Jika tidak ada *product entries*, akan muncul tulisan 'Belum ada data product pada Pacilbay :(' diikuti dengan gambar. Jika sudah ada *product entries*, saya mengiterasi setiap produk yang ada dan memanggil *template* `card.html` sebagai interface *card* untuk menampilkan setiap produknya dengan mengirimkan parameter `product_entry`.
+   - Saya membuat *template* `card.html` untuk menampilkan detail informasi dari setiap produk. Saya menggunakan fitur kolom yang disediakan oleh bootstrap untuk menampilkan nama produk, kuantitas produk, deskripsi produk, dan harga. Saya juga menambahkan dua tombol untuk mengedit produk dan menghapus produk menggunakan *class* `hstack` (*horizontal stack*) yang disediakan oleh bootstrap. 
+   - Masih dalam file yang sama, saya juga menambahkan `modal`/*pop up* tambahan yang berisi pesan konfirmasi saat *user* menekan tombol *delete*. Dalam *pop up* tersebut berisi tombol 'Cancel' untuk kembali ke halaman main tanpa menghapus produk, dan tombol 'Delete' untuk menghapus produk dan kembali ke halaman main.
+3. **Membuat Navigation Bar**
+   - Pertama, kita buat file `navbar.html` pada folder `templates` di *root folder* untuk membuat *navigation bar*.
+   - Dalam file tersebut, kita melakukan pengecekan apakah *user* sudah diotentikasi atau belum. Jika *user* belum diotentikasi, *navbar* akan menampilkan menu untuk *login* dan *register*. Jika *user* sudah diotentikasi, *navbar* akan menampilkan menu 'Home' untuk menampilkan halaman utama, 'Logout' untuk melakukan logout, dan 'Add product' untuk menambahkan *item product*.
+   - Terakhir, kita akan *navbar* tersebut ke semua *template* halaman web yang kita punya dengan menyertakan `{% include 'navbar.html' %}`
+
+###  Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
+
+Ketika terdapat beberapa *CSS selector* yang diterapkan pada elemen HTML yang sama, browser akan menentukan CSS mana yang diterapkan berdasarkan **prioritas** atau yang dikenal dengan istilah **specificity**. Hal ini berguna untuk mencegah terjadinya konflik *style* yang bertabrakan. Urutan prioritas:
+
+1. **Inline Styles**  
+   *Style* yang diterapkan langsung pada elemen melalui atribut `style` memiliki prioritas paling tinggi. Karena *Style* ini ditulis langsung di dalam elemen HTML, *Inline Styles* akan selalu diutamakan dibandingkan *selector* lainnya.
+   _Contoh:_
+   ```html
+   <p style="color: red;">Teks ini merah</p>
+   ```
+   Pada contoh di atas, `color: red` akan selalu diterapkan karena ditulis secara langsung di dalam elemen <p>.
+
+2. **ID Selector**
+   *ID Selector* memiliki prioritas kedua setelah *inline styles*. Setiap elemen HTML dapat memiliki atribut id yang unik, dan *style* yang diterapkan pada ID ini akan mengalahkan *style* yang berasal dari *class*, atribut, atau elemen.
+
+   Contoh:
+   ```css
+   #judul {
+      color: blue;
+   }
+   ```
+   Jika sebuah elemen memiliki ID judul, maka *style* yang ditetapkan di atas akan diterapkan pada elemen tersebut, kecuali ada inline *style* yang mengubahnya.
+
+3. **Class, Attribute, dan Pseudo-class Selector**
+   *Class selector*, atribut (misalnya `[type="text"]`), dan *pseudo-class* (misalnya `:hover`, `:active`) ada di tingkat prioritas ketiga. Jika tidak ada ID atau *inline* *style* yang mengubahnya, *style* dari *class* atau *pseudo-class* akan diterapkan.
+
+   Contoh:
+   ```css
+   .button {
+      background-color: green;
+   }
+   ```
+   *style* ini akan diterapkan pada elemen yang memiliki *class* `button`, namun akan kalah jika elemen tersebut memiliki *ID* atau *inline* *style* yang berbeda.
+
+4. **Element dan Pseudo-element Selector**
+   *Selector* elemen (misalnya `h1`, `p`, `div`) dan pseudo-elemen (misalnya `::before`, `::after`) memiliki prioritas paling rendah. Ini berarti *style* yang diterapkan pada elemen hanya akan berlaku jika tidak ada *style* lain yang lebih spesifik.
+
+   Contoh:
+   ```css
+   p {
+      font-size: 16px;
+   }
+   ```
+   style ini hanya akan diterapkan jika tidak ada *selector class*, *ID*, atau *inline style* yang mengatur ukuran *font* pada elemen <p>.
+
+
+###  Mengapa responsive design menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan responsive design!
+
+**Responsive design** adalah konsep dalam *web development* yang memastikan tampilan dan fungsionalitas *website* tetap optimal dari berbagai perangkat yang digunakan oleh *user* (misalnya desktop, tablet, atau *smartphone*). Konsep ini menjadi sangat penting karena seiring berjalannya waktu, penggunaan internet melalui perangkat *mobile* terus meningkat, sehingga *website* harus dapat menyesuaikan diri dengan berbagai ukuran layar dan resolusi.
+
+Mengapa *responsive design* penting?
+
+1. ***User* *Experience* yang Lebih Baik**
+   Dengan *responsive design*, *user* dapat mengakses konten dengan mudah tanpa harus memperbesar atau memperkecil layar secara manual. Navigasi yang mudah dan tampilan yang proporsional akan meningkatkan kepuasan *user* saat menggunakan aplikasi.
+
+   _Contoh_: Sebuah situs berita yang tidak *responsive* mungkin membuat *user* *mobile* kesulitan membaca artikel karena teksnya terlalu kecil atau elemen-elemen *layout* berantakan. *Website* yang *responsive* akan secara otomatis menyesuaikan ukuran teks dan gambar agar mudah diakses dari layar kecil.
+
+2. **Meningkatkan SEO (Search Engine Optimization)**
+   Google mengutamakan *website* yang *responsive* dalam hasil pencarian, terutama untuk pencarian melalui perangkat *mobile*. Situs yang tidak *responsive* bisa kehilangan peringkat di *search engine*, yang berdampak pada berkurangnya pengunjung.
+
+   _Contoh_: Jika sebuah *e-commerce* *website* tidak *responsive*, Google akan menurunkan peringkatnya di hasil pencarian pengguna *mobile*, sehingga trafik dan potensi penjualan bisa menurun.
+
+3. **Efisiensi dalam Pengembangan dan Pemeliharaan**
+   *Responsive* design memungkinkan *developer* hanya perlu membuat satu versi situs yang dapat menyesuaikan tampilan di berbagai perangkat. Hal ini mengurangi kebutuhan untuk mengembangkan dan memelihara beberapa versi situs untuk desktop dan *mobile*.
+
+   _Contoh_: Daripada membuat satu *website* untuk desktop dan satu lagi untuk *mobile*, sebuah situs *responsive* bisa berfungsi baik di semua perangkat dengan hanya satu kode yang sama.
+
+4. **Adaptasi pada Berbagai Perangkat**
+   Karena pengguna mengakses internet dari berbagai jenis perangkat dengan ukuran layar yang berbeda, dari *smartphone* hingga monitor besar, *website* yang tidak *responsive* akan terlihat tidak proporsional. *Responsive* design memastikan tampilan tetap konsisten dan optimal di semua perangkat.
+
+   _Contoh_: Sebuah aplikasi pembelajaran online mungkin harus memastikan video, teks, dan quiz tetap mudah diakses baik di layar besar laptop maupun di layar kecil *smartphone*.
+
+
+#### Contoh Aplikasi yang Sudah Menerapkan Responsive Design
+
+1. **Airbnb**
+   Airbnb memiliki desain yang responsif di mana layout dan elemen UI (*User Interface*) otomatis menyesuaikan diri dengan ukuran layar pengguna. Pada perangkat *mobile*, navigasi dan konten tetap mudah diakses, gambar dioptimalkan, dan tombol lebih besar agar lebih mudah ditekan dengan jari.
+
+2. **Medium**
+   Medium, *platform* blog populer juga telah menerapkan *responsive design*. Artikel-artikel di Medium dapat dibaca dengan nyaman di berbagai ukuran layar, dengan teks yang mudah dibaca, gambar yang responsif, dan navigasi yang sederhana baik di desktop maupun *mobile*.
+
+
+#### Contoh Aplikasi yang Belum Menerapkan Responsive Design
+
+1. **Situs Sekolah yang Ketinggalan Zaman**
+   Beberapa situs sekolah atau instansi pendidikan yang lama tidak menerapkan *responsive design*, sehingga ketika diakses melalui perangkat *mobile*, teksnya sangat kecil, tata letaknya kacau, dan tombol-tombolnya sulit diakses. *User* harus memperbesar layar untuk membaca konten atau menekan tombol.
+
+2. **Situs Berita Lama**
+   Beberapa situs berita yang sudah ada sejak lama dan belum diperbarui sering kali tidak responsif. Saat dibuka di perangkat *mobile*, *layout* yang kacau membuat *user* kesulitan untuk membaca artikel, dan elemen-elemen seperti gambar atau iklan sering kali menutupi sebagian besar layar.
+
+###  Jelaskan perbedaan antara margin, border, dan padding, serta cara untuk mengimplementasikan ketiga hal tersebut!
+
+Dalam *web development*, **margin**, **border**, dan **padding** adalah tiga properti CSS untuk mengatur tata letak dan spasi antar elemen. 
+
+1. **Margin**
+   
+   Margin adalah ruang di luar elemen, yang mengatur jarak antara elemen tersebut dengan elemen lain di sekitarnya. Margin berada di paling luar dari box model dan tidak memengaruhi tampilan elemen itu sendiri, hanya jaraknya dari elemen lain.
+
+   Untuk mengatur margin bisa diatur secara keseluruhan (misalnya margin: 20px;) atau untuk setiap sisi (atas, kanan, bawah, kiri) dengan nilai yang berbeda.
+   
+   _Contoh_:
+   ```css
+   .box {
+     /* Margin sama untuk semua sisi */
+      margin: 20px;
+   }
+   .box1 {
+      /* Margin berbeda untuk setiap sisi (top, right, bottom, left) */
+      margin: 10px 15px 20px 25px;
+   }
+   ```
+
+2. **Border**
+   Border adalah garis yang mengelilingi elemen dan terletak di antara padding dan margin. Border membatasi elemen secara visual dan bisa diatur ketebalan, warna, dan stylenya.
+
+   Untuk mengatur border biasanya diatur dengan properti shorthand seperti border, atau bisa diatur secara terpisah dengan `border-width`, `border-style`, dan `border-color`.
+
+   ```css
+   /* Border sama di semua sisi */
+   border: 2px solid blue;
+
+   /* Border berbeda untuk setiap sisi */
+   border-top: 2px solid red;
+   border-right: 2px solid green;
+   border-bottom: 2px solid blue;
+   border-left: 2px solid black;
+   ```
+
+3. **Padding**
+   Padding adalah ruang di dalam elemen, yang mengatur jarak antara konten elemen (misalnya teks atau gambar) dengan border elemen. Padding memberikan "ruang bernapas" pada konten di dalam elemen tersebut.
+
+   Padding bisa diatur dengan cara yang mirip seperti margin. Kita bisa menggunakan *shorthand* untuk mengatur semua sisi sekaligus, atau mengatur setiap sisi secara terpisah.
+
+   ```css
+   /* Padding sama untuk semua sisi */
+   padding: 10px;
+
+   /* Padding berbeda untuk setiap sisi (top, right, bottom, left) */
+   padding: 5px 10px 15px 20px;
+
+   ```
+
+   Margin, border, dan padding dapat digunakan bersamaan untuk membuat elemen HTML dengan jarak, border, dan padding yang diatur seperti:
+   ```css
+   .box {
+      margin: 20px;           /* Jarak elemen dari elemen lain */
+      padding: 15px;          /* Jarak konten di dalam elemen dengan border */
+      border: 2px solid black; /* Garis batas elemen */
+   }
+
+   ```
+   ```html
+   <div class="box">
+      Ini adalah konten di dalam box dengan margin, border, dan padding.
+   </div>
+
+   ```
+
+###  Jelaskan konsep flex box dan grid layout beserta kegunaannya!
+
+Dalam CSS, **Flexbox** dan **Grid Layout** adalah dua sistem tata letak modern yang membantu dalam mengatur elemen di halaman web. Masing-masing dapat menyusun elemen secara fleksibel dan responsif, dan memungkinkan desain yang kompleks dan mudah dikelola.
+
+1. **Flexbox (Flexible Box Layout)**
+   
+   Flexbox adalah sistem tata letak satu dimensi yang dirancang untuk menyusun elemen secara fleksibel baik secara **horizontal** (baris) maupun **vertikal** (kolom). Flexbox sangat berguna untuk tata letak yang dinamis dan responsif. Elemen-elemen yang ada di dalamnya bisa secara otomatis menyesuaikan diri tergantung pada ukuran layar atau ruang yang tersedia.
+
+   **Kegunaan Flexbox**
+   - Menyusun elemen secara fleksibel dalam baris atau kolom.
+   - Mudah digunakan untuk tata letak yang tidak terlalu rumit atau tata letak satu dimensi (baik baris **atau** kolom, tetapi bukan keduanya).
+   - Mengatasi masalah alignment (penyelarasan), seperti vertikal tengah atau jarak antar elemen yang sama tanpa menggunakan padding/margin yang rumit.
+   - Fleksibel untuk menyesuaikan elemen di dalam container, misalnya membuat elemen tetap responsif saat layar diperkecil atau diperbesar.
+
+   **Contoh Implementasi Flexbox**
+   ```css
+   .container {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   }
+   ```
+   ```html
+   <div class="container">
+     <div class="box">Box 1</div>
+     <div class="box">Box 2</div>
+     <div class="box">Box 3</div>
+   </div>
+   ```
+
+   Pada contoh di atas:
+
+   - `display: flex` membuat elemen di dalam .container diatur dalam baris secara otomatis.
+   - `justify-content: space-between` menyusun elemen di dalam container dengan jarak yang merata.
+   - `align-items: center` menyusun elemen secara vertikal di tengah.
+
+   **Properti Utama Flexbox**
+
+   - `flex-direction`: Menentukan apakah elemen diatur dalam baris (*row*) atau kolom (*column*).
+   - `justify-content`: Mengatur bagaimana elemen disusun di sepanjang baris (misalnya `center`, `space-between`, `space-around`).
+   - `align-items`: Menyusun elemen secara vertikal di dalam *container*.
+   - `flex-wrap`: Mengatur apakah elemen dapat diteruskan ke baris/kolom baru jika tidak muat dalam satu baris atau kolom.
+
+2. **CSS Grid Layout**
+
+   CSS Grid adalah sistem tata letak dua dimensi yang lebih kompleks dibandingkan Flexbox. Grid bisa menyusun elemen dalam baris dan kolom secara bersamaan sehingga lebih cocok untuk tata letak halaman yang lebih rumit. Grid bisa kita tentukan ukuran, jarak, dan *alignment* dari elemen-elemen di dalamnya.
+
+   **Kegunaan Grid Layout**
+   
+   - Membuat tata letak dua dimensi (baris dan kolom) yang rumit terstruktur.
+   - Cocok untuk layout keseluruhan halaman yang perlu pembagian posisi dengan presisi, misal: *header*, *sidebar*, konten utama, dan *footer*.
+   - Fleksibilitas untuk mengatur ukuran setiap kolom dan baris secara proporsional, atau menggunakan ukuran *fixed*.
+
+   **Contoh Implementasi Grid Layout**
+   ```css
+   .container {
+   display: grid;
+   grid-template-columns: 1fr 2fr;
+   grid-template-rows: auto;
+   gap: 20px;
+   }
+   ```
+
+   ```html
+   <div class="container">
+     <div class="header">Header</div>
+     <div class="sidebar">Sidebar</div>
+     <div class="content">Main Content</div>
+     <div class="footer">Footer</div>
+   </div>
+   ```
+
+   Pada contoh di atas:
+
+   - `display: grid` membuat container menjadi grid.
+   - `grid-template-columns: 1fr 2fr` membuat dua kolom, dengan kolom kedua memiliki dua kali lebar kolom pertama.
+   - `gap: 20px` mengatur jarak antara elemen grid.
+
+   **Properti Utama Grid Layout**
+   - `grid-template-columns`: Menentukan jumlah dan ukuran kolom.
+   - `grid-template-rows`: Menentukan jumlah dan ukuran baris.
+   - `gap`: Mengatur jarak antara baris dan kolom.
+   - `grid-area`: Menentukan tata letak area tertentu pada grid (misalnya *header*, *footer*, dll.).
+
+</details>
