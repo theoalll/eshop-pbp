@@ -5,7 +5,7 @@
     <h3 class="fs-2 text-body-emphasis">{{product_entry.product_name}}</h3>
     <p>Product quantity: {{product_entry.available_qty}}</p>
     <p>{{product_entry.product_description}}</p>
-    <h5>Rp {{product_entry.price}}</h5>
+    <h5>Price: Rp {{product_entry.price}}</h5>
 
     <div class="hstack gap-3 py-3">
         <a class="icon-link" href="{% url 'main:edit_product' product_entry.pk%}">
