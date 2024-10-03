@@ -126,7 +126,6 @@ if DEBUG:
 else:
     STATIC_ROOT = BASE_DIR / 'static' # merujuk ke /static root project pada mode production
 
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
