@@ -19,19 +19,56 @@
 
 <div class="overflow-x-hidden px-16 md:px-32 pb-8 pt-16 bg-blue-200 grid grid-cols-1 gap-8">
   <div class="relative grid grid-cols-1 z-30 md:grid-cols-3 gap-8">
-    <article class="text-wrap text-balance p-8 rounded-xl bg-white ">
-      <p class="text-2xl font-sans Helvetica leading-10 font-bold">Nama</p>
-      <p>{{ name }}</p>
-    </article>
-    <article class="text-wrap text-balance p-8 rounded-xl bg-white">
-      <p class="text-2xl font-sans Helvetica leading-10 font-bold">Kelas</p>
-      <p>{{ class }}</p>
-    </article>
-    <article class="text-wrap text-balance p-8 rounded-xl bg-white">
-      <p class="text-2xl font-sans Helvetica leading-10 font-bold">NPM</p>
-      <p>{{ npm }}</p>
-    </article>
-  </div>
+    <!-- <div class="min-h-screen bg-gray-50 flex flex-col justify-center relative overflow-hidden sm:py-12"> -->
+      <div class="w-96">
+        <div class="relative group">
+          <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+          <div class="relative px-7 py-6 bg-white ring-1 ring-gray-900/5 rounded-lg leading-none flex items-top justify-start space-x-6">
+            <svg class="w-8 h-8 text-purple-600" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.75 6.75C6.75 5.64543 7.64543 4.75 8.75 4.75H15.25C16.3546 4.75 17.25 5.64543 17.25 6.75V19.25L12 14.75L6.75 19.25V6.75Z"></path>
+            </svg>
+            <div class="space-y-2">
+              <p class="text-slate-800">Nama</p>
+              <p class="block text-indigo-400 group-hover:text-slate-800 transition duration-200" target="_blank">{{ name }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- </div> -->
+    
+    <!-- <div class="min-h-screen bg-gray-50 flex flex-col justify-center relative overflow-hidden sm:py-12"> -->
+      <div class="w-96">
+        <div class="relative group">
+          <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+          <div class="relative px-7 py-6 bg-white ring-1 ring-gray-900/5 rounded-lg leading-none flex items-top justify-start space-x-6">
+            <svg class="w-8 h-8 text-purple-600" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.75 6.75C6.75 5.64543 7.64543 4.75 8.75 4.75H15.25C16.3546 4.75 17.25 5.64543 17.25 6.75V19.25L12 14.75L6.75 19.25V6.75Z"></path>
+            </svg>
+            <div class="space-y-2">
+              <p class="text-slate-800">NPM</p>
+              <p class="block text-indigo-400 group-hover:text-slate-800 transition duration-200" target="_blank">{{ npm }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- </div>
+    <div class="min-h-screen bg-gray-50 flex flex-col justify-center relative overflow-hidden sm:py-12"> -->
+      <div class="w-96">
+        <div class="relative group">
+          <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+          <div class="relative px-7 py-6 bg-white ring-1 ring-gray-900/5 rounded-lg leading-none flex items-top justify-start space-x-6">
+            <svg class="w-8 h-8 text-purple-600" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.75 6.75C6.75 5.64543 7.64543 4.75 8.75 4.75H15.25C16.3546 4.75 17.25 5.64543 17.25 6.75V19.25L12 14.75L6.75 19.25V6.75Z"></path>
+            </svg>
+            <div class="space-y-2">
+              <p class="text-slate-800">Kelas</p>
+              <p class="block text-indigo-400 group-hover:text-slate-800 transition duration-200" target="_blank">{{ class }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-- </div> -->
   <div class="place-content-center relative grid grid-cols-1">
     <p class="pb-4 text-xl font-sans Helvetica leading-10 font-bold text-center">Last Login: {{last_login}}</p>
     <a href="{% url 'main:create_product_entry' %}" class="place-self-center w-60 text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 md:w-2/6">
@@ -43,11 +80,12 @@
 <div class="overflow-x-hidden px-16 md:px-32 pb-8 pt-16 grid grid-cols-1 gap-8">
     {% if not product_entries %}
     <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
-        <img src="{% static 'image/empty.png' %}" alt="Sad face" class="w-32 h-32 mb-4"/>
+        <img src="{% static 'image/empty.png' %}" alt="Sad face" class="w-40 h-32 mb-4"/>
         <p class="text-center text-gray-600 mt-4">Belum ada data product pada Pacilbay.</p>
     </div>
     {% else %}
-    <div class="shrink relative grid grid-cols-1 sm:grid-cols-2 gap-8 lg:grid-cols-3 gap-8">
+    
+    <div class="relative grid grid-cols-1 sm:grid-cols-2 gap-8 lg:grid-cols-3 gap-8">
         {% for product_entry in product_entries %}
             {% include 'card_product.html' with product_entry=product_entry %}
         {% endfor %}
