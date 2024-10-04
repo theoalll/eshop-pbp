@@ -1,75 +1,96 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>Mental Health Tracker</title>
+{% endblock meta %}
 {% block content %}
 {% include 'navbar.html' %}
-{% load static %}
-<div class="container-sm px-4 py-5">
-    
-    <h1>Welcome to PacilBay!</h1>
 
-    <figure>
-        <blockquote class="blockquote">
-          <p>"Price is rarely the most important thing. A cheap product might sell some units. Somebody gets it home and they feel great when they pay the money, but then they get it home and use it and the joy is gone."</p>
-        </blockquote>
-        <figcaption class="blockquote-footer">
-            Steve Jobs
-        </figcaption>
-    </figure>
-    
-    <div class="row row-cols-1 row-cols-md-3 mb-3 text-center px-4 py-5">
-        <div class="col">
-            <div class="card mb-4 rounded-3 shadow-sm py-3">
-                <h5>NPM: </h5>
-                <p>{{ npm }}</p>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card mb-4 rounded-3 shadow-sm py-3">
-                <h5>Name: </h5>
-                <p>{{ name }}</p>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card mb-4 rounded-3 shadow-sm py-3">
-                <h5>Class: </h5>
-                <p>{{ class }}</p>
-            </div>
-        </div>
-    </div>
+<div class="grid grid-cols-1 gap-4 m-10 mt-32 px-8 md:px-24">
+  <div> 
+    <p class="text-5xl font-sans Helvetica font-bold">Welcome to <a class="underline decoration-sky-500" href="{% url 'main:show_main' %}">Pacilbay!</a></p>
+  </div>
+  <div>
+    <p class="text-xl font-sans Helvetica">"Price is rarely the most important thing. A cheap product might sell some units. Somebody gets it home and they feel great when they pay the money, but then they get it home and use it and the joy is gone."</p>
+    <p class="underline decoration-gray-950 decoration-transparent decoration-indigo-500 leading-10">- Steve Jobs</p>
+  </div>
+</div>
 
-    
-    <div class="col-lg-6 col-xxl-5 mx-auto">
-        <h5>Sesi terakhir login: {{ last_login }}</h5>
-        <div class="d-grid gap-2">
-            <a class="btn btn-primary" role="button" href="{% url 'main:create_product_entry' %}">Add New product Entry</a>
-          <a class="btn btn-outline-secondary" role="button" href="{% url 'main:logout' %}">Logout</a>
+<div class="overflow-x-hidden px-16 md:px-32 pb-8 pt-16 bg-blue-200 grid grid-cols-1 gap-8">
+  <div class="relative grid grid-cols-1 z-30 md:grid-cols-3 gap-8">
+    <!-- <div class="min-h-screen bg-gray-50 flex flex-col justify-center relative overflow-hidden sm:py-12"> -->
+      <div class="w-96">
+        <div class="relative group">
+          <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+          <div class="relative px-7 py-6 bg-white ring-1 ring-gray-900/5 rounded-lg leading-none flex items-top justify-start space-x-6">
+            <svg class="w-8 h-8 text-purple-600" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.75 6.75C6.75 5.64543 7.64543 4.75 8.75 4.75H15.25C16.3546 4.75 17.25 5.64543 17.25 6.75V19.25L12 14.75L6.75 19.25V6.75Z"></path>
+            </svg>
+            <div class="space-y-2">
+              <p class="text-slate-800">Nama</p>
+              <p class="block text-indigo-400 group-hover:text-slate-800 transition duration-200" target="_blank">{{ name }}</p>
+            </div>
+          </div>
         </div>
-    </div>
-    
-    
-    {% if not product_entries %}
-    
-    <div class="vstack gap-3 text-center px-4 py-3">
-        <div class="p-2"><h5>Belum ada data product pada Pacilbay :(</h5></div>
-        <div class="p-2"><img src="{% static 'image/empty.png' %}" alt="Sad face" style="width: 150px; height: 150px;" class="w-32 h-32 mb-4"/></div>
       </div>
+    <!-- </div> -->
+    
+    <!-- <div class="min-h-screen bg-gray-50 flex flex-col justify-center relative overflow-hidden sm:py-12"> -->
+      <div class="w-96">
+        <div class="relative group">
+          <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+          <div class="relative px-7 py-6 bg-white ring-1 ring-gray-900/5 rounded-lg leading-none flex items-top justify-start space-x-6">
+            <svg class="w-8 h-8 text-purple-600" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.75 6.75C6.75 5.64543 7.64543 4.75 8.75 4.75H15.25C16.3546 4.75 17.25 5.64543 17.25 6.75V19.25L12 14.75L6.75 19.25V6.75Z"></path>
+            </svg>
+            <div class="space-y-2">
+              <p class="text-slate-800">NPM</p>
+              <p class="block text-indigo-400 group-hover:text-slate-800 transition duration-200" target="_blank">{{ npm }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- </div>
+    <div class="min-h-screen bg-gray-50 flex flex-col justify-center relative overflow-hidden sm:py-12"> -->
+      <div class="w-96">
+        <div class="relative group">
+          <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+          <div class="relative px-7 py-6 bg-white ring-1 ring-gray-900/5 rounded-lg leading-none flex items-top justify-start space-x-6">
+            <svg class="w-8 h-8 text-purple-600" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.75 6.75C6.75 5.64543 7.64543 4.75 8.75 4.75H15.25C16.3546 4.75 17.25 5.64543 17.25 6.75V19.25L12 14.75L6.75 19.25V6.75Z"></path>
+            </svg>
+            <div class="space-y-2">
+              <p class="text-slate-800">Kelas</p>
+              <p class="block text-indigo-400 group-hover:text-slate-800 transition duration-200" target="_blank">{{ class }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-- </div> -->
+  <div class="place-content-center relative grid grid-cols-1">
+    <p class="pb-4 text-xl font-sans Helvetica leading-10 font-bold text-center">Last Login: {{last_login}}</p>
+    <a href="{% url 'main:create_product_entry' %}" class="place-self-center w-60 text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 md:w-2/6">
+      Add New Product Entry
+  </a>
+  </div>
+</div>
+
+<div class="overflow-x-hidden px-16 md:px-32 pb-8 pt-16 grid grid-cols-1 gap-8">
+    {% if not product_entries %}
+    <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+        <img src="{% static 'image/empty.png' %}" alt="Sad face" class="w-40 h-32 mb-4"/>
+        <p class="text-center text-gray-600 mt-4">Belum ada data product pada Pacilbay.</p>
+    </div>
     {% else %}
     
-    
-    {% comment %} Berikut cara memperlihatkan data product di bawah baris ini 
-    {% endcomment %} 
-    <div class="container px-4 py-5" id="featured-3" ></div>
-        <h2 class="pb-2 border-bottom">Product Entries</h2>
-            <div class="row g-4 py-5 row-cols-1 row-cols-lg-3 g-4">
-                {% for product_entry in product_entries %}
-                    {% include 'card.html' with product_entry=product_entry %}
-                {% endfor %}
-            </div>
+    <div class="relative grid grid-cols-1 sm:grid-cols-2 gap-8 lg:grid-cols-3 gap-8">
+        {% for product_entry in product_entries %}
+            {% include 'card_product.html' with product_entry=product_entry %}
+        {% endfor %}
     </div>
-        
     {% endif %}
-    
-    <br />
-    
-    
 </div>
+{% include 'footer.html' %}
 {% endblock content %}
