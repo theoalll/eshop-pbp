@@ -104,8 +104,8 @@
       `;
     }
     else{
-      classNameString = "columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6 w-full"
-      moodEntries.forEach((item) => {
+      classNameString = "relative grid grid-cols-1 sm:grid-cols-2 gap-8 lg:grid-cols-3 gap-8"
+      productEntries.forEach((item) => {
         htmlString += `
         <div class="shrink-0 flex flex-col md:flex-row md:space-x-5 space-y-3 md:space-y-0 rounded-xl shadow-lg p-3 max-w-xs md:max-w-3xl mx-auto border border-white bg-white">
     <div class="w-full md:bg-white flex flex-col space-y-2 p-3">
@@ -127,14 +127,14 @@
         <div class="bg-green-200 px-3 py-1 rounded-full text-xs font-medium text-gray-800 hidden md:block">
           Available</div>
       </div>
-      <h3 class="font-black text-gray-800 md:text-3xl text-xl">{{product_entry.product_name}}</h3>
-      <p class="md:text-lg text-gray-500 text-base">{{product_entry.product_description}}</p>
+      <h3 class="font-black text-gray-800 md:text-3xl text-xl">${item.fields.product_name}</h3>
+      <p class="md:text-lg text-gray-500 text-base">${item.fields.product_description}</p>
       <p class="text-xl font-black text-gray-800">
-        Rp {{product_entry.price}}
+        Rp ${item.fields.price}
       </p>
       <div class="flex gap-4 items-center justify-end">
-        <a href="{% url 'main:edit_product' product_entry.pk %}" class="w-30 text-sky-500 no-underline hover:underline">Edit Produk</a>
-        <a href="{% url 'main:delete_product' product_entry.pk %}" class="w-20 text-center bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded-lg transition duration-300 ease-in-out transform">
+        <a href="/edit-mood/${item.pk}" class="w-30 text-sky-500 no-underline hover:underline">Edit Produk</a>
+        <a href="/delete/${item.pk}" class="w-20 text-center bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded-lg transition duration-300 ease-in-out transform">
           Delete
         </a>
       </div>
@@ -146,6 +146,6 @@
     document.getElementById("product_entry_cards").className = classNameString;
     document.getElementById("product_entry_cards").innerHTML = htmlString;
 }
-refreshMoodEntries();
+refreshProductEntries();
 </script>
 {% endblock content %}
