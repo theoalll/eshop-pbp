@@ -96,6 +96,8 @@ def login_user(request):
         response = HttpResponseRedirect(reverse("main:show_main")) # membuat response
         response.set_cookie('last_login', str(datetime.datetime.now())) #membuat cookie last_login dan menambahkannya ke dalam response
         return response
+      else:
+        messages.error(request, "Invalid username or password. Please try again.")
 
    else:
       form = AuthenticationForm(request)
