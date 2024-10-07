@@ -571,3 +571,178 @@ Dalam CSS, **Flexbox** dan **Grid Layout** adalah dua sistem tata letak modern y
    - `grid-area`: Menentukan tata letak area tertentu pada grid (misalnya *header*, *footer*, dll.).
 
 </details>
+
+<details>
+<summary> <h2>Tugas 6: Javascript dan AJAX (Click to Expand)</h2></summary>
+
+### Langkah-Langkah Implementasi Javascript dan AJAX
+1. **AJAX Get**
+   Pada aplikasi PacilBay, AJAX Get digunakan untuk mengambil data produk yang sudah ada dan memperbarui konten HTML tanpa perlu me-reload seluruh halaman sehingga memberikan user experience yang lebih baik karena halaman menjadi lebih responsif. Langkah-langkah implementasi AJAX Get dalam PacilBay:
+   - Kita akan mengganti bagian card yang digunakan untuk menampilkan detail produk, dan menggantinya dengan placeholder dengan ID `product_entry_cards`. Elemen ini akan diisi dengan data mood yang diambil secara dinamis menggunakan AJAX.
+   - Kita akan membuat fungsi javascript untuk mengambil data produk untuk melakukan AJAX Get ke server untuk mengambil data product. Kita akan menggunakan `fetch()` yang merupakan API bawaan JavaScript untuk membuat request.
+   - Kita juga akan memastikan bahwa data yang kita ambil adalah data milik user yang sedang login dengan menambahkan CSRF token ke header permintaan AJAX.
+
+   ```JavaScript
+   async function getProductEntries(){
+      return fetch("{% url 'main:show_json' %}").then((res) => res.json())
+   }
+   ```
+   - Kita akan membuat URL endpoint, method (GET), dan header yang diperlukan. Selanjutnya, setelah data diterima, parse data JSON menjadi objek JavaScript yang dapat digunakan untuk memperbarui tampilan
+   - Setelah kita memparse objek JSON menjadi objek javascript, kita akan menambahkan konten tersebut untuk memperbarui tampilan HTML dalam bentuk cards yang berisi detail produk.
+   ```javascript
+   async function refreshProductEntries() {
+      document.getElementById("product_entry_cards").innerHTML = "";
+      document.getElementById("product_entry_cards").className = "";
+      const productEntries = await getProductEntries();
+      let htmlString = "";
+      let classNameString = "";
+
+      if (productEntries.length === 0) {
+         classNameString = "flex flex-col items-center justify-center min-h-[24rem] p-6";
+         htmlString = `
+             <!-- Kode untuk menampilkan gambar jika tidak ada produk dalam PacilBay -->
+         `;
+      }
+      else{
+         classNameString = "relative grid grid-cols-1 sm:grid-cols-2 gap-8 lg:grid-cols-3 gap-8"
+         productEntries.forEach((item) => {
+         const product_name = DOMPurify.sanitize(item.fields.product_name); // Membersihkan data dari XSS Script
+         const price = DOMPurify.sanitize(item.fields.price);
+         const product_description = DOMPurify.sanitize(item.fields.product_description);
+         const available_qty = DOMPurify.sanitize(item.fields.available_qty);
+         htmlString += `
+         <!-- Kode untuk menampilkan card jika ada produk yang terdaftar dalam PacilBay -->
+         `;
+         });
+      }
+      document.getElementById("product_entry_cards").className = classNameString;
+      document.getElementById("product_entry_cards").innerHTML = htmlString;
+   }
+   refreshProductEntries();
+   ```
+
+2. **AJAX Post**
+   
+   AJAX POST digunakan untuk mengirim data dari klien (browser) ke server. Dalam konteks aplikasi PacilBay, kita akan menggunakan POST untuk menambahkan produk baru ke database. Dengan menggunakan AJAX, user dapat menambahkan produk tanpa harus melakukan reload halaman. Langkah-langkah implementasi AJAX Post:
+
+   - Kita akan membuat tombol yang akan digunakan untuk mentrigger event untuk mengirimkan Ajax Post. Saya meletakkan tombol ini di sebelah tombol untuk menambahkan produk (tanpa AJAX). Kemudian, kita akan membuat modal yang berisi form untuk input data produk.
+   - Dalam `views.py`, kita akan buat view baru yang akan menangani POST request. Dalam view ini, ambil data dari request POST, validasi data, dan simpan ke dalam database.
+   ```python
+   @csrf_exempt
+   @require_POST
+   def add_product_entry_ajax(request):
+      product_name = strip_tags(request.POST.get("product_name"))
+      price = strip_tags(request.POST.get("price"))
+      product_description = strip_tags(request.POST.get("product_description"))
+      available_qty = strip_tags(request.POST.get("available_qty"))
+      user = request.user
+
+      new_product = ProductEntry(
+         product_name = product_name,
+         price = price,
+         product_description = product_description,
+         available_qty = available_qty,
+         user=user
+      )
+      new_product.save()
+
+      return HttpResponse(b"CREATED", status=201)
+   ```
+   - Setelah menambah function baru pada view, kita akan menambahkan path baru yang mengarah ke view yang baru dibuat di dalam `urls.py`
+   - Setelah tampilan dan fungsi dibuat, kita akan menghubungan form dengan path. Kita akan atur atribut action pada form ke path yang telah dibuat. Setelah itu, kita akan gunakan metode POST untuk mengirimkan data ke server untuk disimpan dalam database.
+   - Terakhir, kita akan mengirim data menggunakan AJAX. Pertama, kita akan buat event listener pada tombol submit form. Kemudian, kita akan menggunakan `fetch()` untuk mengirim POST request ke server. Kemudian, kita akan menghandle respons dengan memperbarui tampilan dan menutup modal (jika berhasil) atau menampilkan pesan error (jika gagal)
+   ```javascript
+   function addProductEntry() {
+      fetch("{% url 'main:add_product_entry_ajax' %}", {
+         method: "POST",
+         body: new FormData(document.querySelector('#productEntryForm')),
+      })
+      .then(response => refreshProductEntries())
+
+      document.getElementById("productEntryForm").reset(); // menghapus data yang sudah ada di modal
+      document.querySelector("[data-modal-toggle='crudModal']").click();  
+
+      return false;
+   }
+   ```
+   
+### Manfaat Javascript dalam Pengembangan Aplikasi Web
+
+   JavaScript adalah bahasa pemrograman yang penting dalam pengembangan web modern karena memungkinkan kita untuk membuat halaman web yang interaktif, dinamis, dan responsif. Manfaat javascript:
+   
+   1. Menambah interaktivitas
+
+      JavaScript memungkinkan kita membuat elemen-elemen di halaman web menjadi interaktif. Misal ketika user mengklik tombol, JavaScript bisa mentrigger aksi tertentu seperti menampilkan sebuah modal, menjalankan animasi, atau mengirim data ke server. JavaScript juga bisa digunakan untuk memvalidasi input user sebelum data dikirim ke server sehingga mengurangi potensi kesalahan data dan meningkatkan kualitas data.
+
+   2. Menambahkan dinamisme
+
+      JavaScript membuat kita bisa memanipulasi Document Object Model (DOM) sehingga kita bisa mengubah konten, style, dan struktur halaman secara dinamis. JavaScript juga bisa membuat efek visual yang lebih kompleks seperti animasi, transition, dan hover
+
+   3. Menambahkan responsivitas web
+
+      JavaScript membuat kita bisa membangun aplikasi satu halaman (Single Page Application) di mana seluruh konten halaman ada di dalam satu halaman HTML, dan hanya bagian tertentu yang diupdate secara dinamis seriring berjalannya interaksi. SPA membuat aplikasi menjadi lebih cepat dan responsif.
+
+   4. Integrasi dengan aplikasi lain
+
+      JavaScript bisa digunakan untuk berkomunikasi dengan server menggunakan AJAX untuk mengirim dan menerima data. Ada banyak juga library dan framework JavaScript yang bisa mempercepat pengembangan aplikasi, seperti React, Angular, dan Vue.js.
+
+   Contoh penggunaan javascript dalam web:
+
+   - Formulir: Validasi input, pengiriman data secara asynchronous, menampilkan error message.
+   - Animasi: Membuat elemen-elemen bergerak dan berinteraksi dengan user.
+   - Game: Membangun game sederhana sampai yang kompleks yang bisa berjalan langsung di dalam browser.
+   - Single Page Application (SPA): Membuat aplikasi web yang serasa aplikasi desktop karena navigasinya mulus dan load halaman cepat.
+   - Grafik dan visualisasi data: Membuat grafik dan visualisasi data yang interaktif.
+
+
+### Penggunaan `await` ketika menggunakan `fetch()`
+
+1. **Apa itu `await`?**
+
+   `await` adalah keyword dalam JavaScript yang digunakan untuk menunggu hasil dari sebuah promise. Promise adalah objek yang merepresentasikan hasil dari sebuah operasi asynchronous , seperti request data dari server menggunakan `fetch()`.
+
+2. **Kenapa kita menggunakan `await` saat menggunakan `fetch()`?**
+
+   Ketika kita menggunakan `fetch()`, kita sebenarnya sedang membuat sebuah promise. Promise ini akan diselesaikan ketika request data selesai diproses oleh server. Jika kita tidak menggunakan `await`, kode kita akan terus berjalan tanpa menunggu hasil dari promise tersebut. Hal ini bisa menyebabkan karena bisa saja kita ternyata mencoba mengakses data yang belum ada, dan menjadikan data tidak sinkron.
+
+   ```javascript
+   // Tanpa await
+   fetch('/data')
+   .then(response => response.json())
+   .then(data => {
+      console.log(data); // Data mungkin belum tersedia jika kode setelah ini dieksekusi lebih cepat
+   });
+
+   // Dengan await (dalam fungsi async)
+   async function fetchData() {
+   const response = await fetch('/data');
+   const data = await response.json();
+   console.log(data); // Data pasti sudah tersedia di sini
+   }
+   ```
+
+3. **Apa yang terjadi jika kita tidak menggunakan `await`?**
+
+   - Kode setelah `fetch()` akan langsung dieksekusi meskipun data belum selesai diambil.
+   - Jika kita mencoba mengakses data yang diambil dari `fetch()` sebelum promise selesai, kita akan mendapatkan nilai undefined atau error.
+   - Sebenarnya kita bisa menggantikan `await()` dengan `then()` dan `catch()`. Namun, kode akan menjadi lebih kompleks dan sulit dipahami karena kita harus menggunakan `then()` dan `catch()` untuk menangani promise. Jika kita menggunakan `await`, kode menjadi lebih linear dan mirip dengan kode synchronous. Kita juga bisa memastikan bahwa data sudah tersedia sebelum digunakan. Kita juga bisa menggunakan `try...catch` untuk menangani error secara lebih baik.
+
+Dalam aplikasi PacilBay, kita menggunakan `await` dalam fungsi `refreshProductEntries` untuk memastikan bahwa proses mendapatkan product entries sudah selesai sebelum kita menampilkannya.
+
+### Tujuan pembersihan input user di backend
+
+Pembersihan data (data sanitization) dapat mencegah serangan-serangan seperti injection attack (SQL injection, XSS, dll.). Melakukan sanitization di frontend  tidak cukup untuk menjamin keamanan aplikasi secara keseluruhan. Kita juga harus melakukan sanitization di backend karena:
+
+1. **Keamanan tambahan**
+
+   Jika pengguna mematikan JavaScript, maka validasi di frontend tidak akan berjalan. Kalau kita melakukan validasi di backend, kita memastikan bahwa data yang masuk ke sistem selalu bersih walaupun di konfigurasi browser user javascriptnya non aktif. Data sanitization di backend juga untuk melindungi serangan curl atau Postman dapat langsung mengirim data ke endpoint backend tanpa melalui frontend 
+
+2. **Konsistensi**
+
+   Dengan melakukan validasi di backend maupun frontend, kita bisa memastikan bahwa aturan validasi data selalu konsisten yang akan menghindari inkonsistensi data yang tersimpan.
+
+3. **Perlindungan terhadap perubahan frontend**
+
+   Frontend diubah dengan mudah oleh pengguna atau penyerang. Validasi backend akan menambah proteksi keamanan menjadi lapisan yang lebih sulit untuk diterobos.
+
+</details>
