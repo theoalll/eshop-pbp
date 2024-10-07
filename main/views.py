@@ -27,14 +27,14 @@ from django.views.decorators.http import require_POST
 
 @login_required(login_url='/login')
 def show_main(request):
-    product_entries = ProductEntry.objects.filter(user=request.user)
+    # product_entries = ProductEntry.objects.filter(user=request.user)
 
     context = {
         'product_name' : 'Product name',
         'price' : 1,
         'product_description' : 'Product description',
         'available_qty' : 1,
-        'product_entries' : product_entries,
+        # 'product_entries' : product_entries,
         
         'nama_aplikasi' : 'PacilBay',
         'name' : request.user.username,
@@ -61,11 +61,11 @@ def create_product_entry(request):
     return render(request, "create_product_entry.html", context)
 
 def show_xml(request):
-    data = ProductEntry.objects.all()
+    data = ProductEntry.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
 
 def show_json(request):
-    data = ProductEntry.objects.all()
+    data = ProductEntry.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 def show_xml_by_id(request, id):
@@ -142,7 +142,7 @@ def delete_product(request, id):
 @require_POST
 def add_product_entry_ajax(request):
     product_name = request.POST.get("product_name")
-    proce = request.POST.get("proce")
+    price = request.POST.get("price")
     product_description = request.POST.get("product_description")
     available_qty = request.POST.get("available_qty")
     user = request.user
