@@ -25,6 +25,9 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
+# clean new data
+from django.utils.html import strip_tags
+
 @login_required(login_url='/login')
 def show_main(request):
     # product_entries = ProductEntry.objects.filter(user=request.user)
@@ -141,10 +144,10 @@ def delete_product(request, id):
 @csrf_exempt
 @require_POST
 def add_product_entry_ajax(request):
-    product_name = request.POST.get("product_name")
-    price = request.POST.get("price")
-    product_description = request.POST.get("product_description")
-    available_qty = request.POST.get("available_qty")
+    product_name = strip_tags(request.POST.get("product_name"))
+    price = strip_tags(request.POST.get("price"))
+    product_description = strip_tags(request.POST.get("product_description"))
+    available_qty = strip_tags(request.POST.get("available_qty"))
     user = request.user
 
     new_product = ProductEntry(

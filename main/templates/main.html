@@ -3,6 +3,8 @@
 
 {% block meta %}
 <title>Mental Health Tracker</title>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
+
 {% endblock meta %}
 {% block content %}
 {% include 'navbar.html' %}
@@ -167,6 +169,10 @@
     else{
       classNameString = "relative grid grid-cols-1 sm:grid-cols-2 gap-8 lg:grid-cols-3 gap-8"
       productEntries.forEach((item) => {
+        const product_name = DOMPurify.sanitize(item.fields.product_name);
+        const price = DOMPurify.sanitize(item.fields.price);
+        const product_description = DOMPurify.sanitize(item.fields.product_description);
+        const available_qty = DOMPurify.sanitize(item.fields.available_qty);
         htmlString += `
         <div class="shrink-0 flex flex-col md:flex-row md:space-x-5 space-y-3 md:space-y-0 rounded-xl shadow-lg p-3 max-w-xs md:max-w-3xl mx-auto border border-white bg-white">
     <div class="w-full md:bg-white flex flex-col space-y-2 p-3">
