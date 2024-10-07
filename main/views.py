@@ -21,6 +21,10 @@ import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
+# add product with ajax
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+
 @login_required(login_url='/login')
 def show_main(request):
     product_entries = ProductEntry.objects.filter(user=request.user)
@@ -134,3 +138,22 @@ def delete_product(request, id):
     # Kembali ke halaman awal
     return HttpResponseRedirect(reverse('main:show_main'))
 
+@csrf_exempt
+@require_POST
+def add_product_entry_ajax(request):
+    product_name = request.POST.get("product_name")
+    proce = request.POST.get("proce")
+    product_description = request.POST.get("product_description")
+    available_qty = request.POST.get("available_qty")
+    user = request.user
+
+    new_product = ProductEntry(
+        product_name = product_name,
+        price = price,
+        product_description = product_description,
+        available_qty = available_qty,
+        user=user
+    )
+    new_product.save()
+
+    return HttpResponse(b"CREATED", status=201)
