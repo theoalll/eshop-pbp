@@ -15,7 +15,7 @@
   </div>
   <div>
     <p class="text-xl font-sans Helvetica">"Price is rarely the most important thing. A cheap product might sell some units. Somebody gets it home and they feel great when they pay the money, but then they get it home and use it and the joy is gone."</p>
-    <p class="underline decoration-gray-950 decoration-transparent decoration-indigo-500 leading-10">- Steve Jobs</p>
+    <p class="underline decoration-gray-950 decoration-transparent decoration-blue-500 leading-10">- Steve Jobs</p>
   </div>
 </div>
 
@@ -31,11 +31,11 @@
             </svg>
             <div class="space-y-2">
               <p class="text-slate-800">Nama</p>
-              <p class="block text-indigo-400 group-hover:text-slate-800 transition duration-200" target="_blank">{{ name }}</p>
+              <p class="block text-blue-400 group-hover:text-slate-800 transition duration-200" target="_blank">{{ name }}</p>
             </div>
           </div>
         </div>
-      </div>
+      </div>  
     <!-- </div> -->
     
     <!-- <div class="min-h-screen bg-gray-50 flex flex-col justify-center relative overflow-hidden sm:py-12"> -->
@@ -48,7 +48,7 @@
             </svg>
             <div class="space-y-2">
               <p class="text-slate-800">NPM</p>
-              <p class="block text-indigo-400 group-hover:text-slate-800 transition duration-200" target="_blank">{{ npm }}</p>
+              <p class="block text-blue-400 group-hover:text-slate-800 transition duration-200" target="_blank">{{ npm }}</p>
             </div>
           </div>
         </div>
@@ -64,7 +64,7 @@
             </svg>
             <div class="space-y-2">
               <p class="text-slate-800">Kelas</p>
-              <p class="block text-indigo-400 group-hover:text-slate-800 transition duration-200" target="_blank">{{ class }}</p>
+              <p class="block text-blue-400 group-hover:text-slate-800 transition duration-200" target="_blank">{{ class }}</p>
             </div>
           </div>
         </div>
@@ -107,26 +107,31 @@
       <form id="productEntryForm">
         <div class="mb-4">
           <label for="product_name" class="block text-sm font-medium text-gray-700">Product Name</label>
-          <input type="text" id="product_name" name="product_name" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Enter your product name" required>
+          <input type="text" id="product_name" name="product_name" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-blue-700" placeholder="Enter your product name" required>
+          <p id="errorfieldname" class="mt-1 text-sm text-red-600"></p>
         </div>
         <div class="mb-4">
           <label for="product_description" class="block text-sm font-medium text-gray-700">Product Description</label>
-          <textarea id="product_description" name="product_description" rows="3" class="mt-1 block w-full h-52 resize-none border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Describe your product" required></textarea>
+          <textarea id="product_description" name="product_description" rows="3" class="mt-1 block w-full h-52 resize-none border border-gray-300 rounded-md p-2 hover:border-blue-700" placeholder="Describe your product" required></textarea>
+          <p id="errorfielddescription" class="mt-1 text-sm text-red-600"></p>
+
         </div>
         <div class="mb-4">
           <label for="price" class="block text-sm font-medium text-gray-700">Product Price</label>
-          <input type="number" id="price" name="price" min="1" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Enter your product price" required>
+          <input type="number" id="price" name="price" min="1" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-blue-700" placeholder="Enter your product price" required>
+
         </div>
         <div class="mb-4">
           <label for="available_qty" class="block text-sm font-medium text-gray-700">Available Quantity</label>
-          <input type="number" id="available_qty" name="available_qty" min="1" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Enter your available product quantity" required>
+          <input type="number" id="available_qty" name="available_qty" min="1" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-blue-700" placeholder="Enter your available product quantity" required>
+
         </div>
       </form>
     </div>
     <!-- Modal footer -->
     <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2 p-6 border-t border-gray-200 rounded-b justify-center md:justify-end">
       <button type="button" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg" id="cancelButton">Cancel</button>
-      <button type="submit" id="submitProductEntry" form="productEntryForm" class="bg-indigo-700 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg">Save</button>
+      <button type="submit" id="submitProductEntry" form="productEntryForm" class="bg-blue-700 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Save</button>
     </div>
   </div>
 </div>
@@ -134,16 +139,37 @@
 
 <script>
   function addProductEntry() {
-    fetch("{% url 'main:add_product_entry_ajax' %}", {
-      method: "POST",
-      body: new FormData(document.querySelector('#productEntryForm')),
-    })
-    .then(response => refreshProductEntries())
 
-    document.getElementById("productEntryForm").reset(); 
-    document.querySelector("[data-modal-toggle='crudModal']").click();
+    const productName = DOMPurify.sanitize(document.querySelector('#product_name').value.trim(), { ALLOWED_TAGS: [] });
+    const productDescription = DOMPurify.sanitize(document.querySelector('#product_description').value.trim(), { ALLOWED_TAGS: [] });
 
-    return false;
+    console.log(productName);
+
+    if (productName === "") {
+          document.getElementById("errorfieldname").innerHTML = "Field cannot be blank";
+          if (!(productDescription === "")) {
+            document.getElementById("errorfielddescription").innerHTML = "";
+          }
+          else {
+              document.getElementById("errorfielddescription").innerHTML = "Field cannot be blank"
+          }
+        }
+    else if (productDescription === "") {
+      document.getElementById("errorfieldname").innerHTML = "";
+      document.getElementById("errorfielddescription").innerHTML = "Field cannot be blank";
+    }
+    else {
+      fetch("{% url 'main:add_product_entry_ajax' %}", {
+        method: "POST",
+        body: new FormData(document.querySelector('#productEntryForm')),
+      })
+      .then(response => refreshProductEntries())
+
+      document.getElementById("productEntryForm").reset(); 
+      document.querySelector("[data-modal-toggle='crudModal']").click();
+
+      return false;
+    }
   }
 
   async function getProductEntries(){
@@ -173,41 +199,42 @@
         const price = DOMPurify.sanitize(item.fields.price);
         const product_description = DOMPurify.sanitize(item.fields.product_description);
         const available_qty = DOMPurify.sanitize(item.fields.available_qty);
+        
         htmlString += `
         <div class="shrink-0 flex flex-col md:flex-row md:space-x-5 space-y-3 md:space-y-0 rounded-xl shadow-lg p-3 max-w-xs md:max-w-3xl mx-auto border border-white bg-white">
-    <div class="w-full md:bg-white flex flex-col space-y-2 p-3">
-      <div class="flex justify-between item-center">
-        <p class="text-gray-500 max-w-xs font-medium hidden md:block">Category</p>
-        <div class="flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 20 20"
-            fill="currentColor">
-            <path
-              d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-          </svg>
-          <p class="text-gray-600 font-bold text-sm ml-1">
-            4.96
-            <span class="text-gray-500 font-normal">(0 reviews)</span>
-          </p>
+          <div class="w-full md:bg-white flex flex-col space-y-2 p-3">
+            <div class="flex justify-between item-center">
+              <p class="text-gray-500 max-w-xs font-medium hidden md:block">Category</p>
+              <div class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 20 20"
+                  fill="currentColor">
+                  <path
+                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+                <p class="text-gray-600 font-bold text-sm ml-1">
+                  4.96
+                  <span class="text-gray-500 font-normal">(0 reviews)</span>
+                </p>
+              </div>
+              <div class="flex items-center justify-end">
+              </div>
+              <div class="bg-green-200 px-3 py-1 rounded-full text-xs font-medium text-gray-800 hidden md:block">
+                Available</div>
+            </div>
+            <h3 class="font-black text-gray-800 md:text-3xl text-xl">${item.fields.product_name}</h3>
+            <p class="md:text-lg text-gray-500 text-base">${item.fields.product_description}</p>
+            <p class="text-xl font-black text-gray-800">
+              Rp ${item.fields.price}
+            </p>
+            <div class="flex gap-4 items-center justify-end">
+              <a href="/edit-product/${item.pk}" class="w-30 text-sky-500 no-underline hover:underline">Edit Produk</a>
+              <a href="/delete/${item.pk}" class="w-20 text-center bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded-lg transition duration-300 ease-in-out transform">
+                Delete
+              </a>
+            </div>
+          </div>
         </div>
-        <div class="flex items-center justify-end">
-        </div>
-        <div class="bg-green-200 px-3 py-1 rounded-full text-xs font-medium text-gray-800 hidden md:block">
-          Available</div>
-      </div>
-      <h3 class="font-black text-gray-800 md:text-3xl text-xl">${item.fields.product_name}</h3>
-      <p class="md:text-lg text-gray-500 text-base">${item.fields.product_description}</p>
-      <p class="text-xl font-black text-gray-800">
-        Rp ${item.fields.price}
-      </p>
-      <div class="flex gap-4 items-center justify-end">
-        <a href="/edit-product/${item.pk}" class="w-30 text-sky-500 no-underline hover:underline">Edit Produk</a>
-        <a href="/delete/${item.pk}" class="w-20 text-center bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded-lg transition duration-300 ease-in-out transform">
-          Delete
-        </a>
-      </div>
-    </div>
-  </div>
-    `;
+          `;
 });
     }
     document.getElementById("product_entry_cards").className = classNameString;
