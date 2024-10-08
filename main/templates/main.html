@@ -159,6 +159,9 @@
       document.getElementById("errorfielddescription").innerHTML = "Field cannot be blank";
     }
     else {
+      document.getElementById("errorfieldname").innerHTML = "";
+      document.getElementById("errorfielddescription").innerHTML = "";
+
       fetch("{% url 'main:add_product_entry_ajax' %}", {
         method: "POST",
         body: new FormData(document.querySelector('#productEntryForm')),
