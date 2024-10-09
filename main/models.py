@@ -16,3 +16,9 @@ class ProductEntry(models.Model):
     @property
     def is_product_sold_out(self):
         return self.available_qty_1 > 0
+    
+class User(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=100)
+    npm = models.IntegerField()
+    kelas = models.CharField(max_length=1)

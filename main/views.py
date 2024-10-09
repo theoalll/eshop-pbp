@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, reverse
-from main.forms import ProductEntryForm
-from main.models import ProductEntry
+from main.forms import ProductEntryForm, UserForm
+from main.models import ProductEntry, User
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.core import serializers
 
@@ -62,6 +62,20 @@ def create_product_entry(request):
 
     context = {'form': form}
     return render(request, "create_product_entry.html", context)
+
+def create_user(request):
+    form = UserForm()
+
+    if request.method == "POST":
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your account has been successfully created!')
+            return redirect('main:login')
+            # return HttpResponseRedirect(reverse('main:login'))
+        
+    context = {'form':form}
+    return render(request, 'create_user.html', context)
 
 def show_xml(request):
     data = ProductEntry.objects.filter(user=request.user)

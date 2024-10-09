@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from main.models import ProductEntry
+from main.models import ProductEntry, User
 
 # clean new data
 from django.utils.html import strip_tags
@@ -24,3 +24,21 @@ class ProductEntryForm(ModelForm):
     def clean_available_qty(self):
         available_qty = self.cleaned_data["available_qty"]
         return strip_tags(available_qty)
+    
+
+class UserForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ["name", "npm", "kelas"]
+
+    def clean_name(self):
+        name = self.cleaned_data["name"]
+        return strip_tags(name)
+
+    def clean_npm(self):
+        npm = self.cleaned_data["npm"]
+        return strip_tags(npm)
+
+    def clean_kelas(self):
+        kelas = self.cleaned_data["kelas"]
+        return strip_tags(kelas)
