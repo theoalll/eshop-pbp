@@ -79,4 +79,15 @@
 </div>
 </div>
 </div>
+
+<script>
+  fetch('https://google.com')
+    .then(response => {
+      const statusCode = response.status;
+      console.log(statusCode);
+    })
+    .catch(error => {
+      console.error("Ada masalah: ", error);
+    });
+</script>
 {% endblock content %}

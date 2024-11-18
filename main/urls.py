@@ -17,4 +17,7 @@ urlpatterns = [
     path('delete/<uuid:id>', delete_product, name='delete_product'),
     path('create-product-entry-ajax', add_product_entry_ajax, name='add_product_entry_ajax'),
 
+    # INTEGRASI DJANGO-FLUTTER
+    path('create-flutter/', create_product_flutter, name='create_mood_flutter'),
+
 ]
